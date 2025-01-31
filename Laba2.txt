@@ -1,0 +1,347 @@
+Глава 4 Операции с файлами и каталогами
+
+// Вызов команды которая копирует файлы и каталоги
+[311u16@311U16 ~]$ cp item1 item2
+cp: не удалось выполнить stat для 'item1': No such file or directory
+
+//Вызов комнды которая перемещает/переименовывает файлы и каталоги
+[311u16@311U16 ~]$ touch test1
+[311u16@311U16 ~]$ ls
+'~$з имени 1.odt'  'VirtualBox VMs'    Документы     Музыка          Шаблоны
+ sync.sh           'Без имени 1.odt'   Загрузки      Общедоступные
+ test1              Видео              Изображения  'Рабочий стол'
+[311u16@311U16 ~]$ mv test1 Документы
+
+//Вызов команды для создания каталога 
+311U16@git:~$ mkdir dir1
+311U16@git:~$ ls
+dir1  Lab1.txt
+
+//Вызов программы для копирования файла и каталога со всеми атрибутами 
+311U16@git:~$ cp -a
+cp: missing file operand
+Try 'cp --help' for more information
+
+//Вызов команды для перезаписи файла 
+311U16@git:~$ cp -i 111
+cp: missing destination file operand after '111'
+
+//Вызов команды для рекурсивного копирования и их содержимого 
+311U16@git:~$ cp -r 111
+cp: missing destination file operand after '111'
+
+//Вызов команды для информативного сообщения в процессе копирования 
+311U16@git:~$ pc -v
+Command 'pc' not found, but can be installed with:
+apt install fp-compiler-3.2.2
+Please ask your administrator.
+//Вызов команды содержимого каталогов
+[311u16@311U16 ~]$ ls
+'~$з имени 1.odt'  'Без имени 1.odt'   Загрузки      Общедоступные
+ sync.sh            Видео              Изображения  'Рабочий стол'
+'VirtualBox VMs'    Документы          Музыка        Шаблоны
+[311u16@311U16 ~]$ ls Документы
+test1
+
+//Вызов комнды которая удаляет файлы и каталоги 
+[311u16@311U16 ~]$ cd Документы/
+[311u16@311U16 Документы]$ ls
+test1
+[311u16@311U16 Документы]$ rm test1
+[311u16@311U16 Документы]$ ls
+
+//Вызов команды для создания ссылок 
+311U16@git:~$ ls dir1 /home/311u16@nkti.local
+ls: cannot access '/home/311u16@nkti.local': No such file or directory
+dir1:
+
+Глава 5 Работа с командыми
+//Вызов команды исследования 
+311U16@git:~$ type type
+type is a shell builtin
+
+311U16@git:~$ type ls
+ls is aliased to `ls --color=auto'
+311U16@git:~$ type cp
+cp is hashed (/usr/bin/cp)
+// Вызов команды определения местоположения
+311U16@git:~$ which ls
+/usr/bin/ls
+
+//Вызов команды справки и встроенных команд
+311U16@git:~$ help
+GNU bash, version 5.2.21(1)-release (x86_64-pc-linux-gnu)
+These shell commands are defined internally.  Type `help' to see this list.
+Type `help name' to find out more about the function `name'.
+Use `info bash' to find out more about the shell in general.
+Use `man -k' or `info' to find out more about commands not in this list.
+
+A star (*) next to a name means that the command is disabled.
+
+ job_spec [&]                                   history [-c] [-d offset] [n] or history -an>
+ (( expression ))                               if COMMANDS; then COMMANDS; [ elif COMMANDS>
+ . filename [arguments]                         jobs [-lnprs] [jobspec ...] or jobs -x comm>
+ :                                              kill [-s sigspec | -n signum | -sigspec] pi>
+ [ arg... ]                                     let arg [arg ...]
+ [[ expression ]]                               local [option] name[=value] ...
+ alias [-p] [name[=value] ... ]                 logout [n]
+ bg [job_spec ...]                              mapfile [-d delim] [-n count] [-O origin] [>
+ bind [-lpsvPSVX] [-m keymap] [-f filename] [>  popd [-n] [+N | -N]
+ break [n]                                      printf [-v var] format [arguments]
+ builtin [shell-builtin [arg ...]]              pushd [-n] [+N | -N | dir]
+ caller [expr]                                  pwd [-LP]
+ case WORD in [PATTERN [| PATTERN]...) COMMAN>  read [-ers] [-a array] [-d delim] [-i text]>
+ cd [-L|[-P [-e]] [-@]] [dir]                   readarray [-d delim] [-n count] [-O origin]>
+ command [-pVv] command [arg ...]               readonly [-aAf] [name[=value] ...] or reado>
+ compgen [-abcdefgjksuv] [-o option] [-A acti>  return [n]
+ complete [-abcdefgjksuv] [-pr] [-DEI] [-o op>  select NAME [in WORDS ... ;] do COMMANDS; d>
+ compopt [-o|+o option] [-DEI] [name ...]       set [-abefhkmnptuvxBCEHPT] [-o option-name]>
+ continue [n]                                   shift [n]
+ coproc [NAME] command [redirections]           shopt [-pqsu] [-o] [optname ...]
+ declare [-aAfFgiIlnrtux] [name[=value] ...] >  source filename [arguments]
+ dirs [-clpv] [+N] [-N]                         suspend [-f]
+ disown [-h] [-ar] [jobspec ... | pid ...]      test [expr]
+ echo [-neE] [arg ...]                          time [-p] pipeline
+ enable [-a] [-dnps] [-f filename] [name ...>   times
+ eval [arg ...]                                 trap [-lp] [[arg] signal_spec ...]
+ exec [-cl] [-a name] [command [argument ...]>  true
+ exit [n]                                       type [-afptP] name [name ...]
+ export [-fn] [name[=value] ...] or export ->   typeset [-aAfFgiIlnrtux] name[=value] ... o>
+ false                                          ulimit [-SHabcdefiklmnpqrstuvxPRT] [limit]
+ fc [-e ename] [-lnr] [first] [last] or fc -s>  umask [-p] [-S] [mode]
+ fg [job_spec]                                  unalias [-a] name [name ...]
+ for NAME [in WORDS ... ] ; do COMMANDS; don>   unset [-f] [-v] [-n] [name ...]
+ for (( exp1; exp2; exp3 )); do COMMANDS; don>  until COMMANDS; do COMMANDS-2; done
+ function name { COMMANDS ; } or name () { CO>  variables - Names and meanings of some shel>
+ getopts optstring name [arg ...]               wait [-fn] [-p var] [id ...]
+ hash [-lr] [-p pathname] [-dt] [name ...]      while COMMANDS; do COMMANDS-2; done
+ help [-dms] [pattern ...]                      { COMMANDS ; }
+
+//Вызов команды для получения справки команды cd
+311U16@git:~$ help cd
+cd: cd [-L|[-P [-e]] [-@]] [dir]
+    Change the shell working directory.
+    
+    Change the current directory to DIR.  The default DIR is the value of the
+    HOME shell variable. If DIR is "-", it is converted to $OLDPWD.
+    
+    The variable CDPATH defines the search path for the directory containing
+    DIR.  Alternative directory names in CDPATH are separated by a colon (:).
+    A null directory name is the same as the current directory.  If DIR begins
+    with a slash (/), then CDPATH is not used.
+    
+    If the directory is not found, and the shell option `cdable_vars' is set,
+    the word is assumed to be  a variable name.  If that variable has a value,
+    its value is used for DIR.
+    
+    Options:
+      -L	force symbolic links to be followed: resolve symbolic
+    		links in DIR after processing instances of `..'
+      -P	use the physical directory structure without following
+    		symbolic links: resolve symbolic links in DIR before
+    		processing instances of `..'
+      -e	if the -P option is supplied, and the current working
+    		directory cannot be determined successfully, exit with
+    		a non-zero status
+      -@	on systems that support it, present a file with extended
+    		attributes as a directory containing the file attributes
+    
+    The default is to follow symbolic links, as if `-L' were specified.
+    `..' is processed by removing the immediately previous pathname component
+    back to a slash or the beginning of DIR.
+    
+    Exit Status:
+    Returns 0 if the directory is changed, and if $PWD is set successfully when
+    -P is used; non-zero otherwise.
+
+//Вызов команды инструкции по использованию 
+311U16@git:~$ man --help
+Usage: man [OPTION...] [SECTION] PAGE...
+
+  -C, --config-file=FILE     use this user configuration file
+  -d, --debug                emit debugging messages
+  -D, --default              reset all options to their default values
+      --warnings[=WARNINGS]  enable warnings from groff
+
+ Main modes of operation:
+  -f, --whatis               equivalent to whatis
+  -k, --apropos              equivalent to apropos
+  -K, --global-apropos       search for text in all pages
+  -l, --local-file           interpret PAGE argument(s) as local filename(s)
+  -w, --where, --path, --location
+                             print physical location of man page(s)
+  -W, --where-cat, --location-cat
+                             print physical location of cat file(s)
+
+  -c, --catman               used by catman to reformat out of date cat pages
+  -R, --recode=ENCODING      output source page encoded in ENCODING
+
+ Finding manual pages:
+  -L, --locale=LOCALE        define the locale for this particular man search
+  -m, --systems=SYSTEM       use manual pages from other systems
+  -M, --manpath=PATH         set search path for manual pages to PATH
+
+  -S, -s, --sections=LIST    use colon separated section list
+
+  -e, --extension=EXTENSION  limit search to extension type EXTENSION
+
+  -i, --ignore-case          look for pages case-insensitively (default)
+  -I, --match-case           look for pages case-sensitively
+
+      --regex                show all pages matching regex
+      --wildcard             show all pages matching wildcard
+
+      --names-only           make --regex and --wildcard match page names only,
+                             not descriptions
+
+  -a, --all                  find all matching manual pages
+  -u, --update               force a cache consistency check
+
+      --no-subpages          don't try subpages, e.g. 'man foo bar' => 'man
+                             foo-bar'
+
+ Controlling formatted output:
+  -P, --pager=PAGER          use program PAGER to display output
+  -r, --prompt=STRING        provide the `less' pager with a prompt
+
+  -7, --ascii                display ASCII translation of certain latin1 chars
+  -E, --encoding=ENCODING    use selected output encoding
+      --no-hyphenation, --nh turn off hyphenation
+      --no-justification,                              --nj   turn off justification
+  -p, --preprocessor=STRING  STRING indicates which preprocessors to run:
+                             e - [n]eqn, p - pic, t - tbl,
+g - grap, r - refer, v - vgrind
+
+  -t, --troff                use groff to format pages
+  -T, --troff-device[=DEVICE]   use groff with selected device
+
+  -H, --html[=BROWSER]       use www-browser or BROWSER to display HTML output
+  -X, --gxditview[=RESOLUTION]   use groff and display through gxditview
+                             (X11):
+                             -X = -TX75, -X100 = -TX100, -X100-12 = -TX100-12
+  -Z, --ditroff              use groff and force it to produce ditroff
+
+  -?, --help                 give this help list
+      --usage                give a short usage message
+  -V, --version              print program version
+
+Mandatory or optional arguments to long options are also mandatory or optional
+for any corresponding short options.
+
+Report bugs to cjwatson@debian.org.
+
+//Вызов команды для вывода страниц справочника
+311U16@git:~$ man ls
+LS(1)                                  User Commands                                  LS(1)
+
+NAME
+       ls - list directory contents
+
+SYNOPSIS
+       ls [OPTION]... [FILE]...
+
+DESCRIPTION
+       List  information  about the FILEs (the current directory by default).  Sort entries
+       alphabetically if none of -cftuvSUX nor --sort is specified.
+
+       Mandatory arguments to long options are mandatory for short options too.
+
+       -a, --all
+              do not ignore entries starting with .
+
+       -A, --almost-all
+              do not list implied . and ..
+
+// Вызов команды вывода команд 
+311U16@git:~$ apropos
+apropos what?
+311U16@git:~$ apropos partition
+proc_partitions (5)  - major and minor numbers of partitions
+addpart (8)          - tell the kernel about the existence of a partition
+cfdisk (8)           - display or manipulate a disk partition table
+cgdisk (8)           - Curses-based GUID partition table (GPT) manipulator
+cryptsetup-luksFormat (8) - initialize a LUKS partition and set the initial passphrase
+delpart (8)          - tell the kernel to forget about a partition
+fdisk (8)            - manipulate disk partition table
+fixparts (8)         - MBR partition table repair utility
+gdisk (8)            - Interactive GUID partition table (GPT) manipulator
+growpart (1)         - extend a partition in a partition table to fill available space
+iostat (1)           - Report Central Processing Unit (CPU) statistics and input/output sta...
+kpartx (8)           - Create device maps from partition tables.
+parted (8)           - a partition manipulation program
+partprobe (8)        - inform the OS of partition table changes
+partx (8)            - tell the kernel about the presence and numbering of on-disk partitions
+repart.d (5)         - Partition Definition Files for Automatic Boot-Time Repartitioning
+resizepart (8)       - tell the kernel about the new size of a partition
+sfdisk (8)           - display or manipulate a disk partition table
+sgdisk (8)           - Command-line GUID partition table (GPT) manipulator for Linux and Unix
+systemd-gpt-auto-generator (8) - Generator for automatically discovering and mounting root,...
+systemd-repart (8)   - Automatically grow and add partitions
+systemd-repart.service (8) - Automatically grow and add partitions
+
+//Вызов команды очень краткого описания команды 
+311U16@git:~$ whatis ls
+ls (1)               - list directory contents
+311U16@git:~$ 
+
+//Вызов комады вывода записи из справочного руководства Info
+
+
+File: dir,      Node: Top,      This is the top of the INFO tree.
+
+This is the Info main menu (aka directory node).
+A few useful Info commands:
+
+  'q' quits;
+  'H' lists all Info commands;
+  'h' starts the Info tutorial;
+  'mTexinfo RET' visits the Texinfo manual, etc.
+
+* Menu:
+
+Basics
+* Common options: (coreutils)Common options.
+* Coreutils: (coreutils).       Core GNU (file, text, shell) utilities.
+* Date input formats: (coreutils)Date input formats.
+* Ed: (ed).                     The GNU line editor
+* File permissions: (coreutils)File permissions.
+
+//Вызов команды для умещения нескольких команд на 1 строку
+311U16@git:~$  cd /usr; ls; cd -
+bin  games  include  lib  lib64  libexec  local  sbin  share  src
+/home/311U16
+
+//Вызов команды проверки занято ли имя
+311U16@git:~$ type test
+test is a shell builtin
+311U16@git:~$ type foo
+-bash: type: foo: not found
+
+//Вызов команды для создания псевдонима 
+311U16@git:~$ type foo
+-bash: type: foo: not found
+311U16@git:~$ alias foo='cd /usr; ls; cd -'
+311U16@git:~$ foo
+bin  games  include  lib  lib64  libexec  local  sbin  share  src
+/home/311U16
+
+//Вызов команды проверки псевдонима
+311U16@git:~$ type foo
+foo is aliased to `cd /usr; ls; cd -'
+
+//Вызов команды удаления псевдонима 
+311U16@git:~$ unalias foo
+311U16@git:~$ type foo
+-bash: type: foo: not found
+
+//Вызов программы показа нескольких псевдонимов
+311U16@git:~$ alias
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+alias l='ls -CF'
+alias la='ls -A'
+alias ll='ls -alF'
+alias ls='ls --color=auto'
+
