@@ -1,0 +1,273 @@
+Отчет по практике, работа с DNS 
+
+Настройки для первого ройтера, который смотрит в сеть с клиентом 
+
+Router>en 
+Router#show run
+Building configuration...
+
+Current configuration : 740 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+license udi pid CISCO2911/K9 sn FTX15247D52-
+!
+!
+spanning-tree mode pvst
+!
+!
+interface GigabitEthernet0/0
+ ip address 10.1.0.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 10.2.0.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router rip
+ network 10.0.0.0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+end
+
+Настройка для роутера к которому подклюсчен корневой сервер 
+
+Router>en
+Router#show run
+Building configuration...
+
+Current configuration : 750 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+license udi pid CISCO2911/K9 sn FTX15247344-
+!
+!
+spanning-tree mode pvst
+!
+!
+interface GigabitEthernet0/0
+ ip address 10.3.0.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 10.2.0.2 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ ip address 10.4.0.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router rip
+ network 10.0.0.0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+end
+
+Настройки для постеднего ройтера, к которому подключен Web сервер 
+
+Router>en
+Router#show run
+Building configuration...
+
+Current configuration : 740 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+license udi pid CISCO2911/K9 sn FTX1524FFDG-
+!
+!
+spanning-tree mode pvst
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/1
+ ip address 10.5.0.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ ip address 10.4.0.2 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router rip
+ network 10.0.0.0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+end
+
+Настройка Local server
+ip 10.1.0.2 /24
+шлюз 10.1.0.1
+DNS
+    type-Arecord
+    name-root
+    address 10.3.0.2
+
+    type-NSrecord
+    name-ru
+    Serwer namr  root
+
+Настройка корнего server
+ip 10.3.0.2 /24
+шлюз 10.3.0.1
+DNS 
+    type-SOA
+    name-authority 
+    server name-authority 
+    mali box-authority 
+    serial = 4063577
+	refresh = 60000
+	retry = 60
+	expire = 60
+	minimum = 180
+
+    type-Arecord
+    name-authority 
+    address 10.5.0.2
+
+    type-NSrecord
+    name-ria.ru
+    server name-hostmaster.ripn.net
+
+Настройка server DNS зона
+ip 10.5.0.2 /24
+шлюз 10.5.0.1
+DNS
+    type-Arecord
+    name-hostmaster.ripn.net
+    address 10.5.0.2
+
+    type-SOA
+    name-hostmaster.ripn.net
+	Server name = hostmaster
+	mail box = hostmaster
+	serial = 5647
+	refresh = 60000
+	retry = 60
+	expire = 60
+	minimum = 180
+
+    type-Arecord
+    name-server.ria.ru
+    address 10.5.0.3
+   
+CNAME
+    name-www.ria.ru
+     Host Name-ria.ru
+
+Настройка web server dns-shop.ru
+ip 10.5.0.3 /24
+шлюз 10.5.0.1
+HTTP index.htlm
+<html>
+<center><font size='+2' color='blue'>Веб-севсер ria.ru </font></center>
+<hr>Если видим этот текст то задача выполнена
+<p>Quick Links:
+<br><a href='helloworld.html'>A small page</a>
+<br><a href='copyrights.html'>Copyrights</a>
+<br><a href='image.html'>Image page</a>
+<br><a href='cscoptlogo177x111.jpg'>Image</a>
+</html>
+
+Настройка PC
+ip 10.1.0.3 /24
+шлюз 10.1.0.1
+DNS 10.1.0.2
+
+Для всех ройтеров у нас включено RIP 10.0.0.0
