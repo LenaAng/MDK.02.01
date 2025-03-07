@@ -1,0 +1,250 @@
+Beginning 1
+u16@u16-VirtualBox:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:b6:a7:b7 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic noprefixroute enp0s3
+       valid_lft 85295sec preferred_lft 85295sec
+    inet6 fe80::feae:c43c:7eb4:7bc3/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+3: enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:53:3f:b8 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.16.1/24 brd 192.168.16.255 scope global noprefixroute enp0s8
+       valid_lft forever preferred_lft forever
+    inet6 fe80::b324:96ce:ee4c:69b/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+u16@u16-VirtualBox:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:b6:a7:b7 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic enp0s3
+       valid_lft 84827sec preferred_lft 84827sec
+    inet6 fe80::feae:c43c:7eb4:7bc3/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+3: enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:53:3f:b8 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.16.1/24 brd 192.168.16.255 scope global enp0s8
+       valid_lft forever preferred_lft forever
+    inet6 fe80::b324:96ce:ee4c:69b/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+u16@u16-VirtualBox:~$ sudo nano /etc/dhcp/dhcpd.conf 
+[sudo] пароль для u16: 
+u16@u16-VirtualBox:~$ sudo systemctl restart isc-dhcp-server
+u16@u16-VirtualBox:~$ sudo iptables -n nat -A POSTROUTING -o enp0s3 -j MASQUERADE
+Bad argument `nat'
+Try `iptables -h' or 'iptables --help' for more information.
+u16@u16-VirtualBox:~$ sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
+beginning 2
+u16@u16-VirtualBox:~$ sudo nano /etc/netplan/01-network-
+01-network-manager-all.yaml  01-network-nanager-all.yanl
+u16@u16-VirtualBox:~$ sudo mv /etc/netplan/01-network-nanager-all.yanl ./
+[sudo] пароль для u16: 
+u16@u16-VirtualBox:~$ sudo nano /etc/netplan/01-network-manager-all.yaml 
+u16@u16-VirtualBox:~$ cat /proc/sys/net/ipv4/ip_forward
+1
+u16@u16-VirtualBox:~$ sudo nano /etc/bind/named.conf.options
+u16@u16-VirtualBox:~$ sudo netplan generated
+usage: /usr/sbin/netplan  [-h] [--debug]  ...
+/usr/sbin/netplan : error: argument : invalid choice: 'generated' (choose from 'help', 'apply', 'generate', 'get', 'info', 'ip', 'set', 'rebind', 'status', 'try')
+u16@u16-VirtualBox:~$ sudo netplan generation
+usage: /usr/sbin/netplan  [-h] [--debug]  ...
+/usr/sbin/netplan : error: argument : invalid choice: 'generation' (choose from 'help', 'apply', 'generate', 'get', 'info', 'ip', 'set', 'rebind', 'status', 'try')
+u16@u16-VirtualBox:~$ sudo netplan generate
+
+** (generate:2432): WARNING **: 13:21:02.147: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+/etc/netplan/01-network-manager-all.yaml:5:14: Invalid YAML: inconsistent indentation:
+    ethernets:
+             ^
+u16@u16-VirtualBox:~$ cat /proc/sys/net/ipv4/ip_forward
+1
+u16@u16-VirtualBox:~$ sudo nano /etc/netplan/01-network-manager-all.yaml 
+u16@u16-VirtualBox:~$ sudo netplan generate
+
+** (generate:2445): WARNING **: 13:22:27.027: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+/etc/netplan/01-network-manager-all.yaml:5:14: Invalid YAML: inconsistent indentation:
+    ethernets:
+             ^
+u16@u16-VirtualBox:~$ sudo nano /etc/dhcp/dhcpd.conf
+u16@u16-VirtualBox:~$ sudo systemctl restart isc-dhcp-server
+u16@u16-VirtualBox:~$ sudo nano /etc/netplan/01-network-manager-all.yaml 
+u16@u16-VirtualBox:~$ sudo netplan generate 
+
+** (generate:2525): WARNING **: 13:29:14.874: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+/etc/netplan/01-network-manager-all.yaml:4:14: Invalid YAML: inconsistent indentation:
+    ethernets:
+             ^
+u16@u16-VirtualBox:~$ sudo nano /etc/netplan/01-network-manager-all.yaml 
+u16@u16-VirtualBox:~$ sudo netplan generate 
+
+** (generate:2537): WARNING **: 13:31:32.079: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+u16@u16-VirtualBox:~$ sudo netplan apply 
+
+** (generate:2547): WARNING **: 13:31:46.125: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+WARNING:root:Cannot call Open vSwitch: ovsdb-server.service is not running.
+
+** (process:2545): WARNING **: 13:31:46.445: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+
+** (process:2545): WARNING **: 13:31:48.673: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+
+** (process:2545): WARNING **: 13:31:48.673: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+WARNING: systemd-networkd is not running, output will be incomplete.
+
+Failed to reload network settings: No such file or directory
+WARNING:root:Falling back to a hard restart of systemd-networkd.service
+u16@u16-VirtualBox:~$ sudo nano /etc/netplan/01-network-manager-all.yaml 
+u16@u16-VirtualBox:~$ sudo netplan generate 
+
+** (generate:2648): WARNING **: 13:32:33.387: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+u16@u16-VirtualBox:~$ sudo netplan apply 
+
+** (generate:2655): WARNING **: 13:32:38.811: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+WARNING:root:Cannot call Open vSwitch: ovsdb-server.service is not running.
+
+** (process:2653): WARNING **: 13:32:39.008: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+
+** (process:2653): WARNING **: 13:32:39.202: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+
+** (process:2653): WARNING **: 13:32:39.203: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+u16@u16-VirtualBox:~$ sudo netplan apply 
+
+** (generate:2712): WARNING **: 13:32:42.340: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+WARNING:root:Cannot call Open vSwitch: ovsdb-server.service is not running.
+
+** (process:2710): WARNING **: 13:32:42.581: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+
+** (process:2710): WARNING **: 13:32:42.760: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+
+** (process:2710): WARNING **: 13:32:42.761: Permissions for /etc/netplan/01-network-manager-all.yaml are too open. Netplan configuration should NOT be accessible by others.
+Beginning 
+# Let NetworkManager manage all devices on this system
+network:
+  ethernets:
+    enp0s3:
+      dhcp4: true
+    enp0s8:
+      dhcp4: no
+      addresses: [192.168.16.1/24]
+  version: 2
+
+u16@u16-VirtualBox:~$ cat /proc/sys/net/ipv4/ip_forward
+1
+
+
+       acl dnsclients {
+        192.168.16.0/24;
+        localhost;
+        localnets;
+};
+options {
+
+        directory "/var/cache/bind";
+
+        // If there is a firewall between you and nameservers you want
+        // to talk to, you may need to fix the firewall to allow multiple
+        // ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+
+        // If your ISP provided one or more IP addresses for stable
+        // nameservers, you probably want to use them as forwarders.
+        // Uncomment the following block, and insert the addresses replacing
+        // the all-0's placeholder.
+
+        // forwarders {
+        //      0.0.0.0;
+        // };
+
+        //=====================================================================>
+        // If BIND logs error messages about the root key being expired,
+        // you will need to update your keys.  See https://www.isc.org/bind-keys
+        //=====================================================================>
+        allow-query {dnsclients;};
+        dnssec-validation auto;
+        listen-on {any;};
+        listen-on-v6 { none; };
+};
+
+server
+
+Last login: Thu Mar  6 07:32:55 2025
+lena@lena:~$ ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=61 time=65.6 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=61 time=64.8 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=61 time=64.8 ms
+64 bytes from 8.8.8.8: icmp_seq=4 ttl=61 time=64.8 ms
+64 bytes from 8.8.8.8: icmp_seq=5 ttl=61 time=64.7 ms
+64 bytes from 8.8.8.8: icmp_seq=6 ttl=61 time=64.7 ms
+64 bytes from 8.8.8.8: icmp_seq=7 ttl=61 time=64.6 ms
+64 bytes from 8.8.8.8: icmp_seq=8 ttl=61 time=64.9 ms
+^C
+--- 8.8.8.8 ping statistics ---
+8 packets transmitted, 8 received, 0% packet loss, time 6993ms
+rtt min/avg/max/mdev = 64.634/64.872/65.625/0.298 ms
+lena@lena:~$ 
+
+
+lena@lena:~$ dig vk.com
+
+; <<>> DiG 9.18.30-0ubuntu0.22.04.2-Ubuntu <<>> vk.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 38985
+;; flags: qr rd ra; QUERY: 1, ANSWER: 6, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;vk.com.				IN	A
+
+;; ANSWER SECTION:
+vk.com.			900	IN	A	87.240.132.67
+vk.com.			900	IN	A	87.240.132.72
+vk.com.			900	IN	A	93.186.225.194
+vk.com.			900	IN	A	87.240.137.164
+vk.com.			900	IN	A	87.240.129.133
+vk.com.			900	IN	A	87.240.132.78
+
+;; Query time: 576 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53) (UDP)
+;; WHEN: Fri Mar 07 07:10:05 UTC 2025
+;; MSG SIZE  rcvd: 131
+
+lena@lena:~$ dig vk.com
+
+; <<>> DiG 9.18.30-0ubuntu0.22.04.2-Ubuntu <<>> vk.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 13660
+;; flags: qr rd ra; QUERY: 1, ANSWER: 6, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;vk.com.				IN	A
+
+;; ANSWER SECTION:
+vk.com.			896	IN	A	87.240.137.164
+vk.com.			896	IN	A	87.240.132.72
+vk.com.			896	IN	A	87.240.129.133
+vk.com.			896	IN	A	87.240.132.67
+vk.com.			896	IN	A	87.240.132.78
+vk.com.			896	IN	A	93.186.225.194
+
+;; Query time: 0 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53) (UDP)
+;; WHEN: Fri Mar 07 07:10:08 UTC 2025
+;; MSG SIZE  rcvd: 131
+
+
+
+
+
