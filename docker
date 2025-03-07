@@ -1,0 +1,341 @@
+u16@u16-VirtualBox:~$ sudo apt update
+[sudo] пароль для u16: 
+Сущ:1 http://ru.archive.ubuntu.com/ubuntu jammy InRelease
+Пол:2 http://ru.archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+Пол:3 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+Пол:4 http://ru.archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+Пол:5 http://security.ubuntu.com/ubuntu jammy-security/main i386 Packages [598 kB]
+Пол:6 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [2 378 kB]
+Пол:7 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [2 137 kB]
+Пол:8 http://security.ubuntu.com/ubuntu jammy-security/main amd64 DEP-11 Metadata [43,1 kB]
+Пол:9 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [2 967 kB]
+Пол:10 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main i386 Packages [765 kB]
+Пол:11 http://security.ubuntu.com/ubuntu jammy-security/restricted i386 Packages [38,8 kB]
+Пол:12 http://security.ubuntu.com/ubuntu jammy-security/restricted Translation-en [524 kB]
+Пол:13 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 DEP-11 Metadata [208 B]
+Пол:14 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 DEP-11 Metadata [126 kB]
+Пол:15 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 DEP-11 Metadata [103 kB]
+Пол:16 http://ru.archive.ubuntu.com/ubuntu jammy-updates/restricted i386 Packages [40,6 kB]
+Пол:17 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [45,5 kB]
+Пол:18 http://security.ubuntu.com/ubuntu jammy-security/multiverse i386 Packages [3 352 B]
+Пол:19 http://ru.archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [3 113 kB]
+Пол:20 http://security.ubuntu.com/ubuntu jammy-security/multiverse Translation-en [10,3 kB]
+Пол:21 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 DEP-11 Metadata [208 B]
+Пол:22 http://ru.archive.ubuntu.com/ubuntu jammy-updates/restricted Translation-en [549 kB]
+Пол:23 http://ru.archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 DEP-11 Metadata [212 B]
+Пол:24 http://ru.archive.ubuntu.com/ubuntu jammy-updates/universe i386 Packages [760 kB]
+Пол:25 http://ru.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1 193 kB]
+Пол:26 http://ru.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 DEP-11 Metadata [359 kB]
+Пол:27 http://ru.archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [52,2 kB]
+Пол:28 http://ru.archive.ubuntu.com/ubuntu jammy-updates/multiverse i386 Packages [6 568 B]
+Пол:29 http://ru.archive.ubuntu.com/ubuntu jammy-updates/multiverse Translation-en [13,2 kB]
+Пол:30 http://ru.archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 DEP-11 Metadata [940 B]
+Пол:31 http://ru.archive.ubuntu.com/ubuntu jammy-backports/main amd64 DEP-11 Metadata [7 044 B]
+Пол:32 http://ru.archive.ubuntu.com/ubuntu jammy-backports/restricted amd64 DEP-11 Metadata [212 B]
+Пол:33 http://ru.archive.ubuntu.com/ubuntu jammy-backports/universe amd64 DEP-11 Metadata [17,7 kB]
+Пол:34 http://ru.archive.ubuntu.com/ubuntu jammy-backports/multiverse amd64 DEP-11 Metadata [212 B]
+Получено 16,2 MB за 7с (2 210 kB/s)                                            
+Чтение списков пакетов… Готово
+Построение дерева зависимостей… Готово
+Чтение информации о состоянии… Готово         
+Может быть обновлён 1 пакет. Запустите «apt list --upgradable» для показа.
+u16@u16-VirtualBox:~$ sudo apt install curl software-properties-common ca-certificates apt-transport-https -y
+Чтение списков пакетов… Готово
+Построение дерева зависимостей… Готово
+Чтение информации о состоянии… Готово         
+Уже установлен пакет ca-certificates самой новой версии (20240203~22.04.1).
+ca-certificates помечен как установленный вручную.
+Уже установлен пакет software-properties-common самой новой версии (0.99.22.9).
+software-properties-common помечен как установленный вручную.
+Следующие НОВЫЕ пакеты будут установлены:
+  apt-transport-https curl
+Обновлено 0 пакетов, установлено 2 новых пакетов, для удаления отмечено 0 пакетов, и 1 пакетов не обновлено.
+Необходимо скачать 196 kB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 625 kB.
+Пол:1 http://ru.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 apt-transport-https all 2.4.13 [1 510 B]
+Пол:2 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 curl amd64 7.81.0-1ubuntu1.20 [194 kB]
+Получено 196 kB за 1с (341 kB/s)
+Выбор ранее не выбранного пакета apt-transport-https.
+(Чтение базы данных … на данный момент установлен 180821 файл и каталог.)
+Подготовка к распаковке …/apt-transport-https_2.4.13_all.deb …
+Распаковывается apt-transport-https (2.4.13) …
+Выбор ранее не выбранного пакета curl.
+Подготовка к распаковке …/curl_7.81.0-1ubuntu1.20_amd64.deb …
+Распаковывается curl (7.81.0-1ubuntu1.20) …
+Настраивается пакет apt-transport-https (2.4.13) …
+Настраивается пакет curl (7.81.0-1ubuntu1.20) …
+Обрабатываются триггеры для man-db (2.10.2-1) …
+u16@u16-VirtualBox:~$ curl -fsSL
+curl: no URL specified!
+curl: try 'curl --help' or 'curl --manual' for more information
+u16@u16-VirtualBox:~$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | | sudo apt-key add-
+bash: синтаксическая ошибка рядом с неожиданным маркером «|»
+u16@u16-VirtualBox:~$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | | sudo apt-key add-
+bash: синтаксическая ошибка рядом с неожиданным маркером «|»
+u16@u16-VirtualBox:~$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | 
+> xit
+^[[AКоманда «xit» не найдена. Возможно, вы имели в виду:
+  команда 'xt' из snap-пакета xt (0+git.99c6ce0)
+  команда 'xwit' из deb-пакета xwit (3.4-16)
+  команда 'xir' из deb-пакета libxir-utils (1.4-2ubuntu1)
+  команда 'vit' из deb-пакета vit (2.1.0-2)
+  команда 'git' из deb-пакета git (1:2.34.1-1ubuntu1.11)
+  команда 'wit' из deb-пакета wit (3.01a-4)
+См. 'snap info <имя_snap-пакета>', чтобы просмотреть дополнительные версии.
+u16@u16-VirtualBox:~$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add-
+Usage: apt-key [--keyring file] [command] [arguments]
+
+Manage apt's list of trusted keys
+
+  apt-key add <file>          - add the key contained in <file> ('-' for stdin)
+  apt-key del <keyid>         - remove the key <keyid>
+  apt-key export <keyid>      - output the key <keyid>
+  apt-key exportall           - output all trusted keys
+  apt-key update              - update keys using the keyring package
+  apt-key net-update          - update keys using the network
+  apt-key list                - list keys
+  apt-key finger              - list fingerprints
+  apt-key adv                 - pass advanced options to gpg (download key)
+
+If no specific keyring file is given the command applies to all keyring files.
+u16@u16-VirtualBox:~$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+OK
+u16@u16-VirtualBox:~$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
+Репозиторий: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable'
+Описание:
+Archive for codename: jammy components: stable
+Дополнительные сведения: https://download.docker.com/linux/ubuntu
+Добавление репозитория.
+Нажмите [ENTER] для продолжения или Ctrl-C для отмены.
+Adding deb entry to /etc/apt/sources.list.d/archive_uri-https_download_docker_com_linux_ubuntu-jammy.list
+Adding disabled deb-src entry to /etc/apt/sources.list.d/archive_uri-https_download_docker_com_linux_ubuntu-jammy.list
+Сущ:1 http://ru.archive.ubuntu.com/ubuntu jammy InRelease
+Сущ:2 http://ru.archive.ubuntu.com/ubuntu jammy-updates InRelease
+Сущ:3 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Сущ:4 http://ru.archive.ubuntu.com/ubuntu jammy-backports InRelease            
+Пол:5 https://download.docker.com/linux/ubuntu jammy InRelease [48,8 kB]       
+Пол:6 https://download.docker.com/linux/ubuntu jammy/stable amd64 Packages [45,7 kB]
+Получено 94,5 kB за 1с (80,3 kB/s)  
+Чтение списков пакетов… Готово
+W: https://download.docker.com/linux/ubuntu/dists/jammy/InRelease: Ключ хранится в унаследованной связке ключей trusted.gpg (/etc/apt/trusted.gpg), подробности см. в разделе DEPRECATION в apt-key(8).
+u16@u16-VirtualBox:~$ sudo apt update
+Сущ:1 http://ru.archive.ubuntu.com/ubuntu jammy InRelease
+Сущ:2 http://ru.archive.ubuntu.com/ubuntu jammy-updates InRelease              
+Сущ:3 http://ru.archive.ubuntu.com/ubuntu jammy-backports InRelease            
+Сущ:4 https://download.docker.com/linux/ubuntu jammy InRelease                 
+Сущ:5 http://security.ubuntu.com/ubuntu jammy-security InRelease               
+Чтение списков пакетов… Готово            
+Построение дерева зависимостей… Готово
+Чтение информации о состоянии… Готово         
+Может быть обновлён 1 пакет. Запустите «apt list --upgradable» для показа.
+W: https://download.docker.com/linux/ubuntu/dists/jammy/InRelease: Ключ хранится в унаследованной связке ключей trusted.gpg (/etc/apt/trusted.gpg), подробности см. в разделе DEPRECATION в apt-key(8).
+u16@u16-VirtualBox:~$ sudo apt install docker-ce -y
+Чтение списков пакетов… Готово
+Построение дерева зависимостей… Готово
+Чтение информации о состоянии… Готово         
+Будут установлены следующие дополнительные пакеты:
+  containerd.io docker-buildx-plugin docker-ce-cli docker-ce-rootless-extras
+  docker-compose-plugin git git-man liberror-perl libslirp0 pigz slirp4netns
+Предлагаемые пакеты:
+  cgroupfs-mount | cgroup-lite git-daemon-run | git-daemon-sysvinit git-doc
+  git-email git-gui gitk gitweb git-cvs git-mediawiki git-svn
+Следующие НОВЫЕ пакеты будут установлены:
+  containerd.io docker-buildx-plugin docker-ce docker-ce-cli
+  docker-ce-rootless-extras docker-compose-plugin git git-man liberror-perl
+  libslirp0 pigz slirp4netns
+Обновлено 0 пакетов, установлено 12 новых пакетов, для удаления отмечено 0 пакетов, и 1 пакетов не обновлено.
+Необходимо скачать 124 MB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 458 MB.
+Пол:1 http://ru.archive.ubuntu.com/ubuntu jammy/universe amd64 pigz amd64 2.6-1 [63,6 kB]
+Пол:2 https://download.docker.com/linux/ubuntu jammy/stable amd64 containerd.io amd64 1.7.25-1 [29,6 MB]
+Пол:3 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 liberror-perl all 0.17029-1 [26,5 kB]
+Пол:4 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 git-man all 1:2.34.1-1ubuntu1.12 [955 kB]
+Пол:5 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 git amd64 1:2.34.1-1ubuntu1.12 [3 165 kB]
+Пол:6 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 libslirp0 amd64 4.6.1-1build1 [61,5 kB]
+Пол:7 http://ru.archive.ubuntu.com/ubuntu jammy/universe amd64 slirp4netns amd64 1.0.1-2 [28,2 kB]
+Пол:8 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-buildx-plugin amd64 0.21.1-1~ubuntu.22.04~jammy [35,3 MB]
+Пол:9 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-ce-cli amd64 5:28.0.1-1~ubuntu.22.04~jammy [15,7 MB]
+Пол:10 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-ce amd64 5:28.0.1-1~ubuntu.22.04~jammy [19,1 MB]
+Пол:11 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-ce-rootless-extras amd64 5:28.0.1-1~ubuntu.22.04~jammy [6 086 kB]
+Пол:12 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-compose-plugin amd64 2.33.1-1~ubuntu.22.04~jammy [14,0 MB]
+Получено 124 MB за 23с (5 392 kB/s)                                            
+Выбор ранее не выбранного пакета pigz.
+(Чтение базы данных … на данный момент установлено 180832 файла и каталога.)
+Подготовка к распаковке …/00-pigz_2.6-1_amd64.deb …
+Распаковывается pigz (2.6-1) …
+Выбор ранее не выбранного пакета containerd.io.
+Подготовка к распаковке …/01-containerd.io_1.7.25-1_amd64.deb …
+Распаковывается containerd.io (1.7.25-1) …
+Выбор ранее не выбранного пакета docker-buildx-plugin.
+Подготовка к распаковке …/02-docker-buildx-plugin_0.21.1-1~ubuntu.22.04~jammy_am
+d64.deb …
+Распаковывается docker-buildx-plugin (0.21.1-1~ubuntu.22.04~jammy) …
+Выбор ранее не выбранного пакета docker-ce-cli.
+Подготовка к распаковке …/03-docker-ce-cli_5%3a28.0.1-1~ubuntu.22.04~jammy_amd64
+.deb …
+Распаковывается docker-ce-cli (5:28.0.1-1~ubuntu.22.04~jammy) …
+Выбор ранее не выбранного пакета docker-ce.
+Подготовка к распаковке …/04-docker-ce_5%3a28.0.1-1~ubuntu.22.04~jammy_amd64.deb
+ …
+Распаковывается docker-ce (5:28.0.1-1~ubuntu.22.04~jammy) …
+Выбор ранее не выбранного пакета docker-ce-rootless-extras.
+Подготовка к распаковке …/05-docker-ce-rootless-extras_5%3a28.0.1-1~ubuntu.22.04
+~jammy_amd64.deb …
+Распаковывается docker-ce-rootless-extras (5:28.0.1-1~ubuntu.22.04~jammy) …
+Выбор ранее не выбранного пакета docker-compose-plugin.
+Подготовка к распаковке …/06-docker-compose-plugin_2.33.1-1~ubuntu.22.04~jammy_a
+md64.deb …
+Распаковывается docker-compose-plugin (2.33.1-1~ubuntu.22.04~jammy) …
+Выбор ранее не выбранного пакета liberror-perl.
+Подготовка к распаковке …/07-liberror-perl_0.17029-1_all.deb …
+Распаковывается liberror-perl (0.17029-1) …
+Выбор ранее не выбранного пакета git-man.
+Подготовка к распаковке …/08-git-man_1%3a2.34.1-1ubuntu1.12_all.deb …
+Распаковывается git-man (1:2.34.1-1ubuntu1.12) …
+Выбор ранее не выбранного пакета git.
+Подготовка к распаковке …/09-git_1%3a2.34.1-1ubuntu1.12_amd64.deb …
+Распаковывается git (1:2.34.1-1ubuntu1.12) …
+Выбор ранее не выбранного пакета libslirp0:amd64.
+Подготовка к распаковке …/10-libslirp0_4.6.1-1build1_amd64.deb …
+Распаковывается libslirp0:amd64 (4.6.1-1build1) …
+Выбор ранее не выбранного пакета slirp4netns.
+Подготовка к распаковке …/11-slirp4netns_1.0.1-2_amd64.deb …
+Распаковывается slirp4netns (1.0.1-2) …
+Настраивается пакет liberror-perl (0.17029-1) …
+Настраивается пакет docker-buildx-plugin (0.21.1-1~ubuntu.22.04~jammy) …
+Настраивается пакет containerd.io (1.7.25-1) …
+Created symlink /etc/systemd/system/multi-user.target.wants/containerd.service →
+ /lib/systemd/system/containerd.service.
+Настраивается пакет docker-compose-plugin (2.33.1-1~ubuntu.22.04~jammy) …
+Настраивается пакет docker-ce-cli (5:28.0.1-1~ubuntu.22.04~jammy) …
+Настраивается пакет libslirp0:amd64 (4.6.1-1build1) …
+Настраивается пакет pigz (2.6-1) …
+Настраивается пакет git-man (1:2.34.1-1ubuntu1.12) …
+Настраивается пакет docker-ce-rootless-extras (5:28.0.1-1~ubuntu.22.04~jammy) …
+Настраивается пакет slirp4netns (1.0.1-2) …
+Настраивается пакет docker-ce (5:28.0.1-1~ubuntu.22.04~jammy) …
+Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /li
+b/systemd/system/docker.service.
+Created symlink /etc/systemd/system/sockets.target.wants/docker.socket → /lib/sy
+stemd/system/docker.socket.
+Настраивается пакет git (1:2.34.1-1ubuntu1.12) …
+Обрабатываются триггеры для man-db (2.10.2-1) …
+Обрабатываются триггеры для libc-bin (2.35-0ubuntu3.9) …
+u16@u16-VirtualBox:~$ sudo systemctl status docker
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset>
+     Active: active (running) since Fri 2025-03-07 15:14:23 +07; 53s ago
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 8053 (dockerd)
+      Tasks: 10
+     Memory: 97.9M
+        CPU: 1.170s
+     CGroup: /system.slice/docker.service
+             └─8053 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/cont>
+
+мар 07 15:14:08 u16-VirtualBox dockerd[8053]: time="2025-03-07T15:14:08.9346854>
+мар 07 15:14:08 u16-VirtualBox dockerd[8053]: time="2025-03-07T15:14:08.9365019>
+мар 07 15:14:12 u16-VirtualBox dockerd[8053]: time="2025-03-07T15:14:12.8056777>
+мар 07 15:14:18 u16-VirtualBox dockerd[8053]: time="2025-03-07T15:14:17.8669645>
+мар 07 15:14:19 u16-VirtualBox dockerd[8053]: time="2025-03-07T15:14:19.4752733>
+мар 07 15:14:19 u16-VirtualBox dockerd[8053]: time="2025-03-07T15:14:19.4758865>
+мар 07 15:14:23 u16-VirtualBox dockerd[8053]: time="2025-03-07T15:14:23.1769894>
+мар 07 15:14:23 u16-VirtualBox dockerd[8053]: time="2025-03-07T15:14:23.3290775>
+мар 07 15:14:23 u16-VirtualBox systemd[1]: Started Docker Application Container>
+мар 07 15:14:23 u16-VirtualBox dockerd[8053]: time="2025-03-07T15:14:23.3298052>
+u16@u16-VirtualBox:~$ sudo usermod -aG docker $USER
+u16@u16-VirtualBox:~$ newgrp docker
+u16@u16-VirtualBox:~$ sudo apt-get install docker-compose
+Чтение списков пакетов… Готово
+Построение дерева зависимостей… Готово
+Чтение информации о состоянии… Готово         
+Будут установлены следующие дополнительные пакеты:
+  python3-attr python3-distutils python3-docker python3-dockerpty
+  python3-docopt python3-dotenv python3-jsonschema python3-lib2to3
+  python3-pyrsistent python3-setuptools python3-texttable python3-websocket
+Предлагаемые пакеты:
+  python-attr-doc python-jsonschema-doc python-setuptools-doc
+Рекомендуемые пакеты:
+  docker.io
+Следующие НОВЫЕ пакеты будут установлены:
+  docker-compose python3-attr python3-distutils python3-docker
+  python3-dockerpty python3-docopt python3-dotenv python3-jsonschema
+  python3-lib2to3 python3-pyrsistent python3-setuptools python3-texttable
+  python3-websocket
+Обновлено 0 пакетов, установлено 13 новых пакетов, для удаления отмечено 0 пакетов, и 1 пакетов не обновлено.
+Необходимо скачать 988 kB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 5 240 kB.
+Хотите продолжить? [Д/н] yes
+Пол:1 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 python3-lib2to3 all 3.10.8-1~22.04 [77,6 kB]
+Пол:2 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 python3-distutils all 3.10.8-1~22.04 [139 kB]
+Пол:3 http://ru.archive.ubuntu.com/ubuntu jammy/universe amd64 python3-websocket all 1.2.3-1 [34,7 kB]
+Пол:4 http://ru.archive.ubuntu.com/ubuntu jammy/universe amd64 python3-docker all 5.0.3-1 [89,3 kB]
+Пол:5 http://ru.archive.ubuntu.com/ubuntu jammy/universe amd64 python3-dockerpty all 0.4.1-2 [11,1 kB]
+Пол:6 http://ru.archive.ubuntu.com/ubuntu jammy/universe amd64 python3-docopt all 0.6.2-4 [26,9 kB]
+Пол:7 http://ru.archive.ubuntu.com/ubuntu jammy/universe amd64 python3-dotenv all 0.19.2-1 [20,5 kB]
+Пол:8 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 python3-attr all 21.2.0-1 [44,0 kB]
+Пол:9 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 python3-setuptools all 59.6.0-1.2ubuntu0.22.04.2 [340 kB]
+Пол:10 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 python3-pyrsistent amd64 0.18.1-1build1 [55,5 kB]
+Пол:11 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 python3-jsonschema all 3.2.0-0ubuntu2 [43,1 kB]
+Пол:12 http://ru.archive.ubuntu.com/ubuntu jammy/universe amd64 python3-texttable all 1.6.4-1 [11,4 kB]
+Пол:13 http://ru.archive.ubuntu.com/ubuntu jammy/universe amd64 docker-compose all 1.29.2-1 [95,8 kB]
+Получено 988 kB за 1с (1 664 kB/s)          
+Выбор ранее не выбранного пакета python3-lib2to3.
+(Чтение базы данных … на данный момент установлено 182075 файлов и каталогов.)
+Подготовка к распаковке …/00-python3-lib2to3_3.10.8-1~22.04_all.deb …
+Распаковывается python3-lib2to3 (3.10.8-1~22.04) …
+Выбор ранее не выбранного пакета python3-distutils.
+Подготовка к распаковке …/01-python3-distutils_3.10.8-1~22.04_all.deb …
+Распаковывается python3-distutils (3.10.8-1~22.04) …
+Выбор ранее не выбранного пакета python3-websocket.
+Подготовка к распаковке …/02-python3-websocket_1.2.3-1_all.deb …
+Распаковывается python3-websocket (1.2.3-1) …
+Выбор ранее не выбранного пакета python3-docker.
+Подготовка к распаковке …/03-python3-docker_5.0.3-1_all.deb …
+Распаковывается python3-docker (5.0.3-1) …
+Выбор ранее не выбранного пакета python3-dockerpty.
+Подготовка к распаковке …/04-python3-dockerpty_0.4.1-2_all.deb …
+Распаковывается python3-dockerpty (0.4.1-2) …
+Выбор ранее не выбранного пакета python3-docopt.
+Подготовка к распаковке …/05-python3-docopt_0.6.2-4_all.deb …
+Распаковывается python3-docopt (0.6.2-4) …
+Выбор ранее не выбранного пакета python3-dotenv.
+Подготовка к распаковке …/06-python3-dotenv_0.19.2-1_all.deb …
+Распаковывается python3-dotenv (0.19.2-1) …
+Выбор ранее не выбранного пакета python3-attr.
+Подготовка к распаковке …/07-python3-attr_21.2.0-1_all.deb …
+Распаковывается python3-attr (21.2.0-1) …
+Выбор ранее не выбранного пакета python3-setuptools.
+Подготовка к распаковке …/08-python3-setuptools_59.6.0-1.2ubuntu0.22.04.2_all.deb …
+Распаковывается python3-setuptools (59.6.0-1.2ubuntu0.22.04.2) …
+Выбор ранее не выбранного пакета python3-pyrsistent:amd64.
+Подготовка к распаковке …/09-python3-pyrsistent_0.18.1-1build1_amd64.deb …
+Распаковывается python3-pyrsistent:amd64 (0.18.1-1build1) …
+Выбор ранее не выбранного пакета python3-jsonschema.
+Подготовка к распаковке …/10-python3-jsonschema_3.2.0-0ubuntu2_all.deb …
+Распаковывается python3-jsonschema (3.2.0-0ubuntu2) …
+Выбор ранее не выбранного пакета python3-texttable.
+Подготовка к распаковке …/11-python3-texttable_1.6.4-1_all.deb …
+Распаковывается python3-texttable (1.6.4-1) …
+Выбор ранее не выбранного пакета docker-compose.
+Подготовка к распаковке …/12-docker-compose_1.29.2-1_all.deb …
+Распаковывается docker-compose (1.29.2-1) …
+Настраивается пакет python3-dotenv (0.19.2-1) …
+Настраивается пакет python3-attr (21.2.0-1) …
+Настраивается пакет python3-texttable (1.6.4-1) …
+Настраивается пакет python3-docopt (0.6.2-4) …
+Настраивается пакет python3-pyrsistent:amd64 (0.18.1-1build1) …
+Настраивается пакет python3-lib2to3 (3.10.8-1~22.04) …
+Настраивается пакет python3-websocket (1.2.3-1) …
+Настраивается пакет python3-dockerpty (0.4.1-2) …
+Настраивается пакет python3-distutils (3.10.8-1~22.04) …
+Настраивается пакет python3-setuptools (59.6.0-1.2ubuntu0.22.04.2) …
+Настраивается пакет python3-docker (5.0.3-1) …
+Настраивается пакет python3-jsonschema (3.2.0-0ubuntu2) …
+Настраивается пакет docker-compose (1.29.2-1) …
+Обрабатываются триггеры для man-db (2.10.2-1) …
+u16@u16-VirtualBox:~$ docker compose version
+Docker Compose version v2.33.1
+u16@u16-VirtualBox:~$ 
