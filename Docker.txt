@@ -1,0 +1,262 @@
+Medvedeva 
+Отчет: РАбота с Docker
+какие образы есть
+ u16@u16-VirtualBox:~$ docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+u16@u16-VirtualBox:~$ 
+1) Поиск образа 
+u16@u16-VirtualBox:~$ docker search ubuntu
+NAME                             DESCRIPTION                                     STARS     OFFICIAL
+ubuntu                           Ubuntu is a Debian-based Linux operating sys…   17496     [OK]
+ubuntu/squid                     Squid is a caching proxy for the Web. Long-t…   107       
+ubuntu/nginx                     Nginx, a high-performance reverse proxy & we…   127       
+ubuntu/cortex                    Cortex provides storage for Prometheus. Long…   4         
+ubuntu/apache2                   Apache, a secure & extensible open-source HT…   90        
+-образы сервиса squid 
+u16@u16-VirtualBox:~$ docker search squid
+NAME                         DESCRIPTION                                     STARS     OFFICIAL
+ubuntu/squid                 Squid is a caching proxy for the Web. Long-t…   107       
+elestio/squid                Squid, verified and packaged by Elestio         5         
+openeuler/squid                                                              0         
+sameersbn/squid                                                              232       
+b4tman/squid                 Squid container based on Alpine Linux           22        
+babim/squid                  Squid 4 on alpine linux. With or without auth   4 
+2) Скачивание  
+
+u16@u16-VirtualBox:~$ docker pull ubuntu 22
+docker: 'docker pull' requires 1 argument
+Usage:  docker pull [OPTIONS] NAME[:TAG|@DIGEST]
+Run 'docker pull --help' for more information
+-увидела ошибку исправила
+u16@u16-VirtualBox:~$ docker pull ubuntu:22.04
+22.04: Pulling from library/ubuntu
+9cb31e2e37ea: Pull complete 
+Digest: sha256:ed1544e454989078f5dec1bfdabd8c5cc9c48e0705d07b678ab6ae3fb61952d2
+Status: Downloaded newer image for ubuntu:22.04
+docker.io/library/ubuntu:22.04
+
+u16@u16-VirtualBox:~$ docker pull almalinux
+Using default tag: latest
+latest: Pulling from library/almalinux
+b73550e68465: Pull complete 
+Digest: sha256:787a2698464bf554d02aeeba4e0b022384b21d1419511bfb033a2d440d9f230c
+Status: Downloaded newer image for almalinux:latest
+docker.io/library/almalinux:latest
+
+u16@u16-VirtualBox:~$ docker pull mariadb
+Using default tag: latest
+latest: Pulling from library/mariadb
+5a7813e071bf: Already exists 
+bdecd990c29c: Pull complete 
+5db80086e4da: Pull complete 
+901fe9394c00: Pull complete 
+43eb19e1b102: Pull complete 
+597f7afe50fe: Pull complete 
+e1dede558384: Pull complete 
+5c3a22df929b: Pull complete 
+Digest: sha256:310d29fbb58169dcddb384b0ff138edb081e2773d6e2eceb976b3668089f2f84
+Status: Downloaded newer image for mariadb:latest
+docker.io/library/mariadb:latest
+u16@u16-VirtualBox:~$ docker pull joomla
+Using default tag: latest
+latest: Pulling from library/joomla
+7cf63256a31a: Pull complete 
+02aa0bfe816b: Pull complete 
+8929067778be: Pull complete 
+063974348ccd: Pull complete 
+f26f1ad6e54d: Pull complete 
+a97035320663: Pull complete 
+55a6d997f013: Pull complete 
+be1b093a2245: Pull complete 
+3acaaa0d0c5b: Pull complete 
+0e837c2fac70: Pull complete 
+aecd72a519c7: Pull complete 
+7f47c5f800b7: Pull complete 
+1db31e85631a: Pull complete 
+4f4fb700ef54: Pull complete 
+93264ea55447: Pull complete 
+90664559adba: Pull complete 
+fc6f0924e389: Pull complete 
+9c99453ccea8: Pull complete 
+6ecafadcf0b2: Pull complete 
+7f5ca97c4022: Pull complete 
+699a4cc836dc: Pull complete 
+fe6b6fc69ae8: Pull complete 
+Digest: sha256:eb4ae0d3d4a2cacb38242c3bcc9dfaae685f5c7dd1cee4603e60f94b8dc40f38
+Status: Downloaded newer image for joomla:latest
+docker.io/library/joomla:latest
+3) После создания всех образов проверяю их наличие и информацию о них
+
+u16@u16-VirtualBox:~$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+joomla       latest    83508a981e9a   2 days ago    759MB
+almalinux    latest    df3270cc8bc8   5 days ago    209MB
+mariadb      latest    a914eff5d2eb   3 weeks ago   336MB
+ubuntu       latest    a04dc4851cbc   6 weeks ago   78.1MB
+ubuntu       22.04     a24be041d957   6 weeks ago   77.9MB
+
+4)Испытание удаления образов 
+-Удалим ubuntu с последней версией и ubuntu с весией 22.04
+
+u16@u16-VirtualBox:~$ docker rmi a04dc4851cbc
+Untagged: ubuntu:latest
+Untagged: ubuntu@sha256:72297848456d5d37d1262630108ab308d3e9ec7ed1c3286a32fe09856619a782
+Deleted: sha256:a04dc4851cbcbb42b54d1f52a41f5f9eca6a5fd03748c3f6eb2cbeb238ca99bd
+
+u16@u16-VirtualBox:~$ docker rmi  a24be041d957
+Untagged: ubuntu:22.04
+Untagged: ubuntu@sha256:ed1544e454989078f5dec1bfdabd8c5cc9c48e0705d07b678ab6ae3fb61952d2
+Deleted: sha256:a24be041d9576937f62435f8564c2ca6e429d2760537b04c50ca50adb0c6d212
+Deleted: sha256:270a1170e7e398434ff1b31e17e233f7d7b71aa99a40473615860068e86720af
+
+-Включим joomla в фоновом режимме и удалим его принудительно 
+
+u16@u16-VirtualBox:~$ docker rmi  -f 83508a981e9a 
+Untagged: joomla:latest
+Untagged: joomla@sha256:eb4ae0d3d4a2cacb38242c3bcc9dfaae685f5c7dd1cee4603e60f94b8dc40f38
+Deleted: sha256:83508a981e9ab23e9bef5501852e86871cdb2a8f904e102c66dbe6897fa2b3ab
+
+- Проверим какие  образы остались 
+
+u16@u16-VirtualBox:~$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+almalinux    latest    df3270cc8bc8   5 days ago    209MB
+mariadb      latest    a914eff5d2eb   3 weeks ago   336MB
+
+5) Запуск образа 
+1.1 Запустим образ в режиме detach
+u16@u16-VirtualBox:~$ docker run  df3270cc8bc8
+u16@u16-VirtualBox:~$ 
+
+-После запуска запустим еще в интерактивном режиме (управление с терминала)
+
+u16@u16-VirtualBox:~$ docker run -it ubuntu:22.04
+root@b026dc883781:/# pwd
+/
+root@b026dc883781:/# uname -a
+Linux b026dc883781 6.8.0-52-generic #53~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Wed Jan 15 19:18:46 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+root@b026dc883781:/# sudo useradd -m -s /bin/bash 12
+bash: sudo: command not found
+root@b026dc883781:/# useradd 12
+useradd: invalid user name '12'
+root@b026dc883781:/# useradd lena
+root@b026dc883781:/# useradd lena2
+root@b026dc883781:/# groupadd Dom
+root@b026dc883781:/# Dom
+bash: Dom: command not found
+root@b026dc883781:/# cd Dom
+bash: cd: Dom: No such file or directory
+root@b026dc883781:/# touch 1 2 3
+root@b026dc883781:/# ls -a
+.   .dockerenv  2  bin   dev  home  lib32  libx32  mnt  proc  run   srv  tmp  var
+..  1           3  boot  etc  lib   lib64  media   opt  root  sbin  sys  usr
+root@b026dc883781:/# ls   
+1  3    boot  etc   lib    lib64   media  opt   root  sbin  sys  usr
+2  bin  dev   home  lib32  libx32  mnt    proc  run   srv   tmp  var
+root@b026dc883781:/# user ls
+bash: user: command not found
+root@b026dc883781:/# user- ls
+bash: user-: command not found
+root@b026dc883781:/# user -ls
+bash: user: command not found
+root@b026dc883781:/# stat 1  
+  File: 1
+  Size: 0         	Blocks: 0          IO Block: 4096   regular empty file
+Device: 3ch/60d	Inode: 1099815     Links: 1
+Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2025-03-13 06:40:20.391802735 +0000
+Modify: 2025-03-13 06:40:20.391802735 +0000
+Change: 2025-03-13 06:40:20.391802735 +0000
+ Birth: 2025-03-13 06:40:20.390802734 +0000
+root@b026dc883781:/# stat 2
+  File: 2
+  Size: 0         	Blocks: 0          IO Block: 4096   regular empty file
+Device: 3ch/60d	Inode: 1099819     Links: 1
+Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2025-03-13 06:40:20.391802735 +0000
+Modify: 2025-03-13 06:40:20.391802735 +0000
+Change: 2025-03-13 06:40:20.391802735 +0000
+ Birth: 2025-03-13 06:40:20.391802735 +0000
+root@b026dc883781:/# stat 3
+  File: 3
+  Size: 0         	Blocks: 0          IO Block: 4096   regular empty file
+Device: 3ch/60d	Inode: 1099821     Links: 1
+Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2025-03-13 06:40:20.391802735 +0000
+Modify: 2025-03-13 06:40:20.391802735 +0000
+Change: 2025-03-13 06:40:20.391802735 +0000
+ Birth: 2025-03-13 06:40:20.391802735 +0000
+root@b026dc883781:/# chmod a+x 1 
+root@b026dc883781:/# stat 1   
+  File: 1
+  Size: 0         	Blocks: 0          IO Block: 4096   regular empty file
+Device: 3ch/60d	Inode: 1099815     Links: 1
+Access: (0755/-rwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2025-03-13 06:40:20.391802735 +0000
+Modify: 2025-03-13 06:40:20.391802735 +0000
+Change: 2025-03-13 06:42:00.257840565 +0000
+ Birth: 2025-03-13 06:40:20.390802734 +0000
+root@b026dc883781:/# chmod u+s 2
+root@b026dc883781:/# stat 2
+  File: 2
+  Size: 0         	Blocks: 0          IO Block: 4096   regular empty file
+Device: 3ch/60d	Inode: 1099819     Links: 1
+Access: (4644/-rwSr--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2025-03-13 06:40:20.391802735 +0000
+Modify: 2025-03-13 06:40:20.391802735 +0000
+Change: 2025-03-13 06:42:35.131854077 +0000
+ Birth: 2025-03-13 06:40:20.391802735 +0000
+root@b026dc883781:/# userdel lena
+root@b026dc883781:/# userdel lena1
+userdel: user 'lena1' does not exist
+root@b026dc883781:/# userdel lena2
+root@b026dc883781:/# su           
+root@b026dc883781:/# su     
+root@b026dc883781:/# exit
+exit
+root@b026dc883781:/# exit
+exit
+root@b026dc883781:/# chmod g-s 2 
+root@b026dc883781:/# stat 2
+  File: 2
+  Size: 0         	Blocks: 0          IO Block: 4096   regular empty file
+Device: 3ch/60d	Inode: 1099819     Links: 1
+Access: (4644/-rwSr--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2025-03-13 06:40:20.391802735 +0000
+Modify: 2025-03-13 06:40:20.391802735 +0000
+Change: 2025-03-13 06:45:21.808920281 +0000
+ Birth: 2025-03-13 06:40:20.391802735 +0000
+root@b026dc883781:/# 
+
+-Просмотр исполнительных програм 
+
+u16@u16-VirtualBox:~$ ps -A
+    PID TTY          TIME CMD
+      1 ?        00:00:04 systemd
+      2 ?        00:00:00 kthreadd
+      3 ?        00:00:00 pool_workqueue_release
+      4 ?        00:00:00 kworker/R-rcu_g
+      5 ?        00:00:00 kworker/R-rcu_p
+      6 ?        00:00:00 kworker/R-slub_
+      7 ?        00:00:00 kworker/R-netns
+     10 ?        00:00:00 kworker/0:0H-events_highpri
+     12 ?        00:00:00 kworker/R-mm_pe
+     13 ?        00:00:00 rcu_tasks_kthread
+
+
+-Перечисляем контейнеры и останавливаем их
+
+u16@u16-VirtualBox:~$ docker stop &(docker ps -a -q)
+[1] 5401
+docker: 'docker stop' requires at least 1 argument
+
+Usage:  docker stop [OPTIONS] CONTAINER [CONTAINER...]
+
+See 'docker stop --help' for more information
+b026dc883781
+e57861fd1334
+a2d1ea46874a
+1053a217aec4
+[1]+  Выход 1            docker stop
+
+
