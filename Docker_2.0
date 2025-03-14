@@ -1,0 +1,330 @@
+
+Работа с контейнерами БД
+Скачка всех нужных образов 
+
+u16@u16-VirtualBox:~$ docker run -d mysql
+Unable to find image 'mysql:latest' locally
+latest: Pulling from library/mysql
+804bb8ae89de: Pull complete 
+1b515e7ceb69: Pull complete 
+eaa11c0a9f08: Pull complete 
+8d18181893b8: Pull complete 
+e0a910cc8604: Pull complete 
+bc0c792ca096: Pull complete 
+8d73d2a73425: Pull complete 
+4a7e00d873b9: Pull complete 
+27a2553d6a80: Pull complete 
+69e76254f502: Pull complete 
+Digest: sha256:9b9d0aab4860798acff13d2a0ece3bc26639fe18b83fa5cd3e3d0e16b3ed05dd
+Status: Downloaded newer image for mysql:latest
+c03759c0f48d026be44d837271f27d8178c97cb9c408073a88b4fc1d28288f30
+
+u16@u16-VirtualBox:~$ docker pull postgres 
+Using default tag: latest
+latest: Pulling from library/postgres
+7cf63256a31a: Already exists 
+543c6dea2e39: Pull complete 
+dc87fb4dbc03: Pull complete 
+55c54708c8e7: Pull complete 
+878a40f56a67: Pull complete 
+6424ae1ae883: Pull complete 
+600e770d797e: Pull complete 
+a21a08dbca2c: Pull complete 
+783086ffbe8e: Pull complete 
+42e76ffa3e07: Pull complete 
+fcccafd45a4d: Pull complete 
+420a047e4570: Pull complete 
+553d1749e29f: Pull complete 
+bc13f9b1d80d: Pull complete 
+Digest: sha256:81f32a88ec561664634637dd446487efd5f9d90996304b96210078e90e5c8b21
+Status: Downloaded newer image for postgres:latest
+docker.io/library/postgres:latest
+
+u16@u16-VirtualBox:~$ docker pull mariadb
+Using default tag: latest
+latest: Pulling from library/mariadb
+Digest: sha256:310d29fbb58169dcddb384b0ff138edb081e2773d6e2eceb976b3668089f2f84
+Status: Image is up to date for mariadb:latest
+docker.io/library/mariadb:latest
+
+1.Запуск контейнера из образа 
+
+u16@u16-VirtualBox:~$ docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                      PORTS     NAMES
+06d138cf319b   mysql          "docker-entrypoint.s…"   59 seconds ago   Exited (1) 53 seconds ago             clever_chatelet
+f420432e0120   ubuntu         "sh"                     5 minutes ago    Exited (0) 2 minutes ago              naughty_bell
+c03759c0f48d   mysql          "docker-entrypoint.s…"   12 minutes ago   Exited (1) 12 minutes ago             musing_yonath
+b026dc883781   ubuntu:22.04   "/bin/bash"              23 hours ago     Exited (0) 23 hours ago               relaxed_swanson
+e57861fd1334   mariadb        "docker-entrypoint.s…"   23 hours ago     Exited (1) 23 hours ago               pedantic_curie
+a2d1ea46874a   df3270cc8bc8   "/bin/bash"              23 hours ago     Exited (0) 23 hours ago               relaxed_easley
+1053a217aec4   83508a981e9a   "/entrypoint.sh apac…"   23 hours ago     Exited (1) 23 hours ago               awesome_ritchie
+u16@u16-VirtualBox:~$ docker logs 06d138cf319b
+2025-03-14 05:50:07+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 9.2.0-1.el9 started.
+2025-03-14 05:50:08+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+2025-03-14 05:50:08+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 9.2.0-1.el9 started.
+2025-03-14 05:50:09+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
+    You need to specify one of the following as an environment variable:
+    - MYSQL_ROOT_PASSWORD
+    - MYSQL_ALLOW_EMPTY_PASSWORD
+    - MYSQL_RANDOM_ROOT_PASSWORD
+u16@u16-VirtualBox:~$ docker run -e MYSQL_ROOT_PASSWORD=12345 -d mysql
+3798e16ad766260532cb7828f10b78775c1aea37e44bf7182bb430b92f77cbcf
+^[[A^[[Au16@u16-Virtua
+u16@u16-VirtualBox:~$ docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                      PORTS                 NAMES
+3798e16ad766   mysql          "docker-entrypoint.s…"   23 seconds ago   Up 20 seconds               3306/tcp, 33060/tcp   focused_neumann
+06d138cf319b   mysql          "docker-entrypoint.s…"   2 minutes ago    Exited (1) 2 minutes ago                          clever_chatelet
+f420432e0120   ubuntu         "sh"                     7 minutes ago    Exited (0) 3 minutes ago                          naughty_bell
+c03759c0f48d   mysql          "docker-entrypoint.s…"   14 minutes ago   Exited (1) 13 minutes ago                         musing_yonath
+b026dc883781   ubuntu:22.04   "/bin/bash"              23 hours ago     Exited (0) 23 hours ago                           relaxed_swanson
+e57861fd1334   mariadb        "docker-entrypoint.s…"   23 hours ago     Exited (1) 23 hours ago                           pedantic_curie
+a2d1ea46874a   df3270cc8bc8   "/bin/bash"              23 hours ago     Exited (0) 23 hours ago                           relaxed_easley
+1053a217aec4   83508a981e9a   "/entrypoint.sh apac…"   24 hours ago     Exited (1) 24 hours ago                           awesome_ritchie
+u16@u16-VirtualBox:~$ docker ps 
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                 NAMES
+3798e16ad766   mysql     "docker-entrypoint.s…"   26 seconds ago   Up 23 seconds   3306/tcp, 33060/tcp   focused_neumann
+
+
+Информация о контейнере 
+
+u16@u16-VirtualBox:~$ docker logs focused_neumann
+2025-03-14 05:52:20+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 9.2.0-1.el9 started.
+2025-03-14 05:52:21+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+2025-03-14 05:52:21+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 9.2.0-1.el9 started.
+2025-03-14 05:52:22+00:00 [Note] [Entrypoint]: Initializing database files
+2025-03-14T05:52:22.143090Z 0 [System] [MY-015017] [Server] MySQL Server Initialization - start.
+2025-03-14T05:52:22.165135Z 0 [System] [MY-013169] [Server] /usr/sbin/mysqld (mysqld 9.2.0) initializing of server in progress as process 80
+2025-03-14T05:52:22.476328Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-14T05:52:43.464652Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-14T05:53:32.990330Z 6 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+2025-03-14T05:54:26.522758Z 0 [System] [MY-015018] [Server] MySQL Server Initialization - end.
+2025-03-14 05:54:26+00:00 [Note] [Entrypoint]: Database files initialized
+2025-03-14 05:54:26+00:00 [Note] [Entrypoint]: Starting temporary server
+2025-03-14T05:54:26.604269Z 0 [System] [MY-015015] [Server] MySQL Server - start.
+2025-03-14T05:54:27.460309Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 9.2.0) starting as process 121
+2025-03-14T05:54:28.466825Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-14T05:54:49.347235Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-14T05:54:53.809189Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-14T05:54:53.809257Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-14T05:54:53.927735Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
+2025-03-14T05:54:54.081861Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: /var/run/mysqld/mysqlx.sock
+2025-03-14T05:54:54.081935Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '9.2.0'  socket: '/var/run/mysqld/mysqld.sock'  port: 0  MySQL Community Server - GPL.
+2025-03-14 05:54:55+00:00 [Note] [Entrypoint]: Temporary server started.
+'/var/lib/mysql/mysql.sock' -> '/var/run/mysqld/mysqld.sock'
+Warning: Unable to load '/usr/share/zoneinfo/iso3166.tab' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/leap-seconds.list' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/leapseconds' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/tzdata.zi' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/zone.tab' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/zone1970.tab' as time zone. Skipping it.
+
+2025-03-14 05:55:09+00:00 [Note] [Entrypoint]: Stopping temporary server
+2025-03-14T05:55:09.533268Z 11 [System] [MY-013172] [Server] Received SHUTDOWN from user root. Shutting down mysqld (Version: 9.2.0).
+2025-03-14T05:55:14.063893Z 0 [System] [MY-010910] [Server] /usr/sbin/mysqld: Shutdown complete (mysqld 9.2.0)  MySQL Community Server - GPL.
+2025-03-14T05:55:14.063936Z 0 [System] [MY-015016] [Server] MySQL Server - end.
+2025-03-14 05:55:14+00:00 [Note] [Entrypoint]: Temporary server stopped
+
+2025-03-14 05:55:14+00:00 [Note] [Entrypoint]: MySQL init process done. Ready for start up.
+
+2025-03-14T05:55:14.635101Z 0 [System] [MY-015015] [Server] MySQL Server - start.
+2025-03-14T05:55:14.873823Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 9.2.0) starting as process 1
+2025-03-14T05:55:14.932507Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-14T05:55:31.844562Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-14T05:55:34.446220Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-14T05:55:34.446314Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-14T05:55:34.588234Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
+2025-03-14T05:55:34.744759Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060, socket: /var/run/mysqld/mysqlx.sock
+2025-03-14T05:55:34.744926Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '9.2.0'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.
+
+
+Запус любой программы изнутри контейнера 
+
+u16@u16-VirtualBox:~$ docker exec 3798e16ad766  ls -l /etc
+total 1016
+-rw-r--r-- 1 root root     94 Jan 10  2022 GREP_COLORS
+drwxr-xr-x 5 root root   4096 Mar 12 23:11 X11
+-rw-r--r-- 1 root root   1529 Jun 23  2020 aliases
+drwxr-xr-x 2 root root   4096 Mar 12 23:11 alternatives
+drwxr-xr-x 2 root root   4096 Oct 26 06:09 bash_completion.d
+-rw-r--r-- 1 root root   2658 Apr  4  2024 bashrc
+-rw-r--r-- 1 root root    535 Oct 26 13:35 bindresvport.blacklist
+drwxr-xr-x 6 root root   4096 Mar 12 23:11 crypto-policies
+-rw-r--r-- 1 root root   1401 Apr  4  2024 csh.cshrc
+-rw-r--r-- 1 root root   1112 Apr  4  2024 csh.login
+drwxr-xr-x 2 root root   4096 Mar 12 23:11 default
+drwxr-xr-x 8 root root   4096 Mar 12 23:11 dnf
+-rw-r--r-- 1 root root      0 Apr  4  2024 environment
+-rw-r--r-- 1 root root   1362 Jun 23  2020 ethertypes
+-rw-r--r-- 1 root root      0 Jun 23  2020 exports
+
+
+Вывод результата выполнения команды в терминале хост-системы 
+u16@u16-VirtualBox:~$ docker exec -it 3798e16ad766 mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 9.2.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> 
+
+- Команды внутри клиента mysql:
+
+1.Вызов справки  
+mysql> help;
+
+For information about MySQL products and services, visit:
+   http://www.mysql.com/
+For developer information, including the MySQL Reference Manual, visit:
+   http://dev.mysql.com/
+To buy MySQL Enterprise support, training, or other products, visit:
+   https://shop.mysql.com/
+
+List of all MySQL commands:
+Note that all text commands must be first on line and end with ';'
+?         (\?) Synonym for `help'.
+clear     (\c) Clear the current input statement.
+connect   (\r) Reconnect to the server. Optional arguments are db and host.
+delimiter (\d) Set statement delimiter.
+edit      (\e) Edit command with $EDITOR.
+
+
+2. Отображение БД на сервере 
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.03 sec)
+
+
+3. Выбор БД
+
+mysql> use mysql
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+
+4.Просмотр имен таблиц
+
+mysql> show tables;
++------------------------------------------------------+
+| Tables_in_mysql                                      |
++------------------------------------------------------+
+| columns_priv                                         |
+| component                                            |
+| db                                                   |
+| default_roles                                        |
+| engine_cost                                          |
+| func                                                 |
+| general_log                                          |
+| global_grants                                        |
+| gtid_executed                                        |
+| help_category                                        |
+| help_keyword                                         |
+| help_relation                                        |
+| help_topic                                           |
+| innodb_index_stats                                   |
+| innodb_table_stats                                   |
+| ndb_binlog_index                                     |
+| password_history                                     |
+| plugin                                               |
+| procs_priv                                           |
+| proxies_priv                                         |
+| replication_asynchronous_connection_failover         |
+| replication_asynchronous_connection_failover_managed |
+| replication_group_configuration_version              |
+| replication_group_member_actions                     |
+| role_edges         
+5.Просмотр информации внутри таблицы
+
+mysql> show columns from user;
++--------------------------+-----------------------------------+------+-----+-----------------------+-------+
+| Field                    | Type                              | Null | Key | Default               | Extra |
++--------------------------+-----------------------------------+------+-----+-----------------------+-------+
+| Host                     | char(255)                         | NO   | PRI |                       |       |
+| User                     | char(32)                          | NO   | PRI |                       |       |
+| Select_priv              | enum('N','Y')                     | NO   |     | N                     |       |
+| Insert_priv              | enum('N','Y')                     | NO   |     | N                     |       |
+| Update_priv              | enum('N','Y')                     | NO   |     | N                     |       |
+| Delete_priv              | enum('N','Y')                     | NO   |     | N                     |       |
+| Create_priv              | enum('N','Y')                     | NO   |     | N                     |       |
+| Drop_priv                | enum('N','Y')                     | NO   |     | N                     |       |
+| Reload_priv              | enum('N','Y')                     | NO   |     | N                     |       |
+| Shutdown_priv            | enum('N','Y')                     | NO   |     | N                     |       |
+| Process_priv             | enum('N','Y')                     | NO   |     | N                     |       |
+| File_priv                | enum('N','Y')                     | NO   |     | N                     |       |
+| Grant_priv               | enum('N','Y')                     | NO   |     | N                     |       |
+| References_priv          | enum('N','Y')                     | NO   |     | N                     |       |
+| Index_priv               | enum('N','Y')                     | NO   |     | N                     |       |
+| Alter_priv               | enum('N','Y')                     | NO   |     | N                     |       |
+| Show_db_priv             | enum('N','Y')                     | NO   |     | N                     |       |
+| Super_priv               | enum('N','Y')                     | NO   |     | N                     |       |
+| Create_tmp_table_priv    | enum('N','Y')                     | NO   |     | N                     |       |
+| Lock_tables_priv         | enum('N','Y')                     | NO   |     | N                     |       |
+| Execute_priv             | enum('N','Y')                     | NO   |     | N                     |       |
+| Repl_slave_priv          | enum('N','Y')                     | NO   |     | N                     |       |
+| Repl_client_priv         | enum('N','Y')                     | NO   |     | N                     |       |
+
+6. Создание БД
+mysql> select Host,User, User_attiributes from user;
+ERROR 1054 (42S22): Unknown column 'User_attiributes' in 'field list'
+mysql> select Host,User, User_attributes from user;
++-----------+------------------+-----------------+
+| Host      | User             | User_attributes |
++-----------+------------------+-----------------+
+| %         | root             | NULL            |
+| localhost | mysql.infoschema | NULL            |
+| localhost | mysql.session    | NULL            |
+| localhost | mysql.sys        | NULL            |
+| localhost | root             | NULL            |
++-----------+------------------+-----------------+
+5 rows in set (0.00 sec)
+
+
+Создание пользователя
+
+mysql> create user'medvedeva'@'%'identified by'123';
+Query OK, 0 rows affected (1.30 sec)
+
+Установка привелегий 
+mysql> grant all privileges on medvedevaBD.* to 'medvedeva'@'%';
+Query OK, 0 rows affected (0.24 sec)
+
+перезагрузка привелегий 
+
+mysql> flush privileges
+    -> ;
+Query OK, 0 rows affected, 1 warning (0.17 sec)
+
+Создание таблицы в бд
+mysql> create table var ( id int not null, fio varchar(15) not null, primary key (id) );
+Query OK, 0 rows affected (1.72 sec)
+
+mysql> create table var ( id int not null, fio varchar(15) not null, primary key (id) );
+Query OK, 0 rows affected (1.72 sec)
+
+mysql> insert into var (id, fio)  values ( 35, 'medvedeva');
+Query OK, 1 row affected (0.30 sec)
+
+mysql> select * from var;
++----+-----------+
+| id | fio       |
++----+-----------+
+| 35 | medvedeva |
++----+-----------+
+1 row in set (0.01 sec)
+
+
