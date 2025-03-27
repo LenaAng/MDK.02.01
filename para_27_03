@@ -1,0 +1,255 @@
+Делаем dokerfile
+u16@u16-VirtualBox:~$ cd prj1
+u16@u16-VirtualBox:~/prj1$ vim pr001.java
+u16@u16-VirtualBox:~/prj1$ cat pr001.java
+class pr001 {
+	public static void 
+		main (Stving [] arg )
+		{
+			System.out.println("Hello,world"):}
+}
+
+u16@u16-VirtualBox:~/prj1$ vim Dockerfile
+u16@u16-VirtualBox:~/prj1$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+php          latest    cd0e124311ea   13 days ago    547MB
+almalinux    latest    df3270cc8bc8   2 weeks ago    209MB
+postgres     latest    76e3e031d245   4 weeks ago    438MB
+postgres     <none>    563071385448   4 weeks ago    438MB
+mariadb      latest    a914eff5d2eb   5 weeks ago    336MB
+alpine       latest    aded1e1a5b37   5 weeks ago    7.83MB
+phpmyadmin   latest    052506f2de4d   2 months ago   570MB
+mysql        latest    fa262c3a6564   2 months ago   797MB
+openjdk      latest    71260f256d19   2 years ago    470MB
+u16@u16-VirtualBox:~/prj1$ docker build -t testjava:0.1
+ERROR: docker: 'docker buildx build' requires 1 argument
+
+Usage:  docker buildx build [OPTIONS] PATH | URL | -
+
+Run 'docker buildx build --help' for more information
+u16@u16-VirtualBox:~/prj1$ docker build -t testjava:0.1 .
+[+] Building 53.0s (8/8) FINISHED                                docker:default
+ => [internal] load build definition from Dockerfile                       3.0s
+ => => transferring dockerfile: 120B                                       0.2s
+ => [internal] load metadata for docker.io/library/openjdk:latest          0.1s
+ => [internal] load .dockerignore                                          1.9s
+ => => transferring context: 2B                                            0.0s
+ => [internal] load build context                                          5.5s
+ => => transferring context: 264B                                          0.0s
+ => [1/4] FROM docker.io/library/openjdk:latest                            5.8s
+ => [2/4] COPY . /java                                                     3.1s
+ => [3/4] WORKDIR /java                                                    3.4s
+ => ERROR [4/4] RUN javac pr001.java                                      29.4s
+------                                                                          
+ > [4/4] RUN javac pr001.java:                                                  
+26.69 pr001.java:5: error: ';' expected                                         
+26.69                   System.out.println("Hello,world"):}                     
+26.69 			                                 ^
+26.86 1 error
+------
+Dockerfile:4
+--------------------
+   2 |     COPY . /java
+   3 |     WORKDIR /java
+   4 | >>> RUN javac pr001.java
+   5 |     CMD ["java","pr001"]
+   6 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c javac pr001.java" did not complete successfully: exit code: 1
+u16@u16-VirtualBox:~/prj1$ vim pr001.java
+u16@u16-VirtualBox:~/prj1$ docker build -t testjava:0.1 .
+[+] Building 19.7s (8/8) FINISHED                                docker:default
+ => [internal] load build definition from Dockerfile                       0.6s
+ => => transferring dockerfile: 120B                                       0.0s
+ => [internal] load metadata for docker.io/library/openjdk:latest          0.0s
+ => [internal] load .dockerignore                                          0.8s
+ => => transferring context: 2B                                            0.0s
+ => [internal] load build context                                          0.6s
+ => => transferring context: 175B                                          0.0s
+ => CACHED [1/4] FROM docker.io/library/openjdk:latest                     0.0s
+ => [2/4] COPY . /java                                                     2.3s
+ => [3/4] WORKDIR /java                                                    2.8s
+ => ERROR [4/4] RUN javac pr001.java                                       8.6s
+------                                                                          
+ > [4/4] RUN javac pr001.java:                                                  
+6.163 pr001.java:3: error: cannot find symbol                                   
+6.163           main (Stving [] arg )                                           
+6.163                 ^                                                         
+6.163   symbol:   class Stving                                                  
+6.163   location: class pr001
+6.252 1 error
+------
+Dockerfile:4
+--------------------
+   2 |     COPY . /java
+   3 |     WORKDIR /java
+   4 | >>> RUN javac pr001.java
+   5 |     CMD ["java","pr001"]
+   6 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c javac pr001.java" did not complete successfully: exit code: 1
+u16@u16-VirtualBox:~/prj1$ vim pr001.java
+u16@u16-VirtualBox:~/prj1$ docker build -t testjava:0.1 .
+[+] Building 24.7s (9/9) FINISHED                                docker:default
+ => [internal] load build definition from Dockerfile                       0.6s
+ => => transferring dockerfile: 120B                                       0.0s
+ => [internal] load metadata for docker.io/library/openjdk:latest          0.0s
+ => [internal] load .dockerignore                                          0.6s
+ => => transferring context: 2B                                            0.0s
+ => [internal] load build context                                          0.8s
+ => => transferring context: 175B                                          0.0s
+ => CACHED [1/4] FROM docker.io/library/openjdk:latest                     0.0s
+ => [2/4] COPY . /java                                                     2.4s
+ => [3/4] WORKDIR /java                                                    3.0s
+ => [4/4] RUN javac pr001.java                                             6.8s
+ => exporting to image                                                     5.3s
+ => => exporting layers                                                    3.9s
+ => => writing image sha256:6eb6c37fe5aac34d1caadc7616229c1d813821aca9dd9  0.2s
+ => => naming to docker.io/library/testjava:0.1                            0.3s
+u16@u16-VirtualBox:~/prj1$ doker images
+Команда «doker» не найдена. Возможно, вы имели в виду:
+  команда 'docker' из snap-пакета docker (27.5.1)
+  команда 'docker' из deb-пакета docker.io (26.1.3-0ubuntu1~22.04.1)
+  команда 'docker' из deb-пакета podman-docker (3.4.4+ds1-1ubuntu1.22.04.3)
+См. 'snap info <имя_snap-пакета>', чтобы просмотреть дополнительные версии.
+u16@u16-VirtualBox:~/prj1$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED              SIZE
+testjava     0.1       6eb6c37fe5aa   About a minute ago   470MB
+php          latest    cd0e124311ea   13 days ago          547MB
+almalinux    latest    df3270cc8bc8   2 weeks ago          209MB
+postgres     latest    76e3e031d245   4 weeks ago          438MB
+postgres     <none>    563071385448   4 weeks ago          438MB
+mariadb      latest    a914eff5d2eb   5 weeks ago          336MB
+alpine       latest    aded1e1a5b37   5 weeks ago          7.83MB
+phpmyadmin   latest    052506f2de4d   2 months ago         570MB
+mysql        latest    fa262c3a6564   2 months ago         797MB
+openjdk      latest    71260f256d19   2 years ago          470MB
+u16@u16-VirtualBox:~/prj1$ docker run testjava:0.1
+Hello,world
+u16@u16-VirtualBox:~/prj1$ vim pr001.java
+u16@u16-VirtualBox:~/prj1$ docker run --name java1 --rm testjava:0.1
+Hello,world
+u16@u16-VirtualBox:~/prj1$ vim pr001.java
+u16@u16-VirtualBox:~/prj1$ docker build -t testjava:0.1 .
+[+] Building 18.5s (8/8) FINISHED                                docker:default
+ => [internal] load build definition from Dockerfile                       0.6s
+ => => transferring dockerfile: 120B                                       0.0s
+ => [internal] load metadata for docker.io/library/openjdk:latest          0.0s
+ => [internal] load .dockerignore                                          0.6s
+ => => transferring context: 2B                                            0.0s
+ => [internal] load build context                                          0.8s
+ => => transferring context: 201B                                          0.0s
+ => CACHED [1/4] FROM docker.io/library/openjdk:latest                     0.0s
+ => [2/4] COPY . /java                                                     2.5s
+ => [3/4] WORKDIR /java                                                    2.9s
+ => ERROR [4/4] RUN javac pr001.java                                       7.5s
+------                                                                          
+ > [4/4] RUN javac pr001.java:                                                  
+5.012 pr001.java:4: error: ',', ')', or '[' expected                            
+5.012                   (int i=0; i<10; i++)                                    
+5.012                         ^                                                 
+5.016 pr001.java:4: error: not a statement                                      
+5.016 			(int i=0; i<10; i++)
+5.016 			^
+5.017 pr001.java:4: error: illegal start of type
+5.017 			(int i=0; i<10; i++)
+5.017 			            ^
+5.018 pr001.java:4: error: not a statement
+5.018 			(int i=0; i<10; i++)
+5.018 			           ^
+5.019 pr001.java:4: error: ';' expected
+5.019 			(int i=0; i<10; i++)
+5.019 			                   ^
+5.149 5 errors
+------
+Dockerfile:4
+--------------------
+   2 |     COPY . /java
+   3 |     WORKDIR /java
+   4 | >>> RUN javac pr001.java
+   5 |     CMD ["java","pr001"]
+   6 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c javac pr001.java" did not complete successfully: exit code: 1
+u16@u16-VirtualBox:~/prj1$ vim pr001.java
+u16@u16-VirtualBox:~/prj1$ 
+u16@u16-VirtualBox:~/prj1$ docker build -t testjava:0.1 .
+[+] Building 24.4s (9/9) FINISHED                                docker:default
+ => [internal] load build definition from Dockerfile                       0.6s
+ => => transferring dockerfile: 120B                                       0.0s
+ => [internal] load metadata for docker.io/library/openjdk:latest          0.0s
+ => [internal] load .dockerignore                                          0.8s
+ => => transferring context: 2B                                            0.0s
+ => [internal] load build context                                          0.5s
+ => => transferring context: 204B                                          0.0s
+ => CACHED [1/4] FROM docker.io/library/openjdk:latest                     0.0s
+ => [2/4] COPY . /java                                                     2.6s
+ => [3/4] WORKDIR /java                                                    3.0s
+ => [4/4] RUN javac pr001.java                                             6.7s
+ => exporting to image                                                     4.8s
+ => => exporting layers                                                    3.5s
+ => => writing image sha256:1a26a8f0da19cf99e7612e1c99c3fcbd2fb3cdc6f44ea  0.1s
+ => => naming to docker.io/library/testjava:0.1                            0.3s
+u16@u16-VirtualBox:~/prj1$ docker run --name java1 --rm testjava:0.1
+String
+String
+String
+String
+String
+String
+String
+String
+String
+String
+u16@u16-VirtualBox:~/prj1$ doker  ps -l
+Команда «doker» не найдена. Возможно, вы имели в виду:
+  команда 'docker' из snap-пакета docker (27.5.1)
+  команда 'docker' из deb-пакета docker.io (26.1.3-0ubuntu1~22.04.1)
+  команда 'docker' из deb-пакета podman-docker (3.4.4+ds1-1ubuntu1.22.04.3)
+См. 'snap info <имя_snap-пакета>', чтобы просмотреть дополнительные версии.
+u16@u16-VirtualBox:~/prj1$ docker  ps -l
+CONTAINER ID   IMAGE          COMMAND        CREATED         STATUS                     PORTS     NAMES
+c4314211ac8d   6eb6c37fe5aa   "java pr001"   7 minutes ago   Exited (0) 7 minutes ago             nostalgic_curran
+
+u16@u16-VirtualBox:~/prj1$ vim pr001.java
+u16@u16-VirtualBox:~/prj1$ docker build -t testjava:0.1 .
+[+] Building 6.6s (9/9) FINISHED                                 docker:default
+ => [internal] load build definition from Dockerfile                       0.7s
+ => => transferring dockerfile: 120B                                       0.0s
+ => [internal] load metadata for docker.io/library/openjdk:latest          0.0s
+ => [internal] load .dockerignore                                          0.6s
+ => => transferring context: 2B                                            0.0s
+ => [internal] load build context                                          0.8s
+ => => transferring context: 215B                                          0.0s
+ => [1/4] FROM docker.io/library/openjdk:latest                            0.0s
+ => CACHED [2/4] COPY . /java                                              0.0s
+ => CACHED [3/4] WORKDIR /java                                             0.0s
+ => CACHED [4/4] RUN javac pr001.java                                      0.0s
+ => exporting to image                                                     0.5s
+ => => exporting layers                                                    0.0s
+ => => writing image sha256:b78531516e4c945d685aa3d30157208dcddb788ef8e04  0.1s
+ => => naming to docker.io/library/testjava:0.1  
+u16@u16-VirtualBox:~/prj1$ docker run --name java1 --rm testjava:0.1
+u16@u16-VirtualBox:~/prj1$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+u16@u16-VirtualBox:~/prj1$ doker ps -a
+Команда «doker» не найдена. Возможно, вы имели в виду:
+  команда 'docker' из snap-пакета docker (27.5.1)
+  команда 'docker' из deb-пакета docker.io (26.1.3-0ubuntu1~22.04.1)
+  команда 'docker' из deb-пакета podman-docker (3.4.4+ds1-1ubuntu1.22.04.3)
+См. 'snap info <имя_snap-пакета>', чтобы просмотреть дополнительные версии.
+u16@u16-VirtualBox:~/prj1$ docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                           PORTS                 NAMES
+c4314211ac8d   6eb6c37fe5aa   "java pr001"             13 minutes ago   Exited (0) 13 minutes ago                              nostalgic_curran
+77f40eb06f10   mysql          "docker-entrypoint.s…"   7 days ago       Exited (255) About an hour ago   3306/tcp, 33060/tcp   sleepy_elgamal
+676c68cc6642   mysql          "docker-entrypoint.s…"   7 days ago       Exited (1) 7 days ago                                  vibrant_babbage
+6bb5eb1ef8e7   mysql          "docker-entrypoint.s…"   7 days ago       Exited (1) 7 days ago                                  vigilant_wiles
+Создаем второй файл
+	
+u16@u16-VirtualBox:~/prj2$ vim index.php
+u16@u16-VirtualBox:~/prj2$ vim Dockerfile
+
+
+u16@u16-VirtualBox:~$ mkdir prj2
+u16@u16-VirtualBox:~$ cd prj2
+
