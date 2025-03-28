@@ -1,0 +1,71 @@
+Исправление отчета по лекции 27.03
+
+создание 1 докер файла
+
+u16@u16-VirtualBox:~/prj1$ cat Dockerfile
+FROM openjdk
+COPY . /java
+WORKDIR /java
+RUN javac pr001.java
+CMD ["java","pr001"]
+
+показание работы 
+u16@u16-VirtualBox:~/prj1$ docker logs c4314211ac8d
+Hello,world
+Hello,world
+
+создание 2 докер файла
+u16@u16-VirtualBox:~/prj2$ cat Dockerfile
+FROM php:7.2-apache
+WORKDIR /var/www/html/
+COPY . /var/www/html/
+EXPOSE 80
+
+показание работы 
+u16@u16-VirtualBox:~/prj2$ docker run -d -p 8081:80 php
+a0c0cc41f8022cddc6d12eb1188bd8db1dbdf3edc9d0bb63e98aed759f979032
+
+открытие вкладки в браузере и выполнение команды по localhost:8081
+
+создание 3 докер файла
+u16@u16-VirtualBox:~/prj3$ cat Dockerfile
+FROM almalinux 
+copy . .
+CMD  ["cat","102"]
+
+результат работы 
+u16@u16-VirtualBox:~/prj3$ docker run -it --rm kot
+hello :)
+:)))
+
+создание 4 докер файла
+u16@u16-VirtualBox:~/prj4$ vim Dockerfile
+u16@u16-VirtualBox:~/prj4$ docker build -t kot2 .
+[+] Building 53.4s (8/8) FINISHED                                docker:default
+ => [internal] load build definition from Dockerfile                       2.2s
+ => => transferring dockerfile: 145B                                       0.2s
+ => [internal] load metadata for docker.io/library/mariadb:latest          0.0s
+ => [internal] load .dockerignore                                          2.3s
+ => => transferring context: 2B                                            0.0s
+ => [1/4] FROM docker.io/library/mariadb:latest                            8.7s
+ => [2/4] RUN touch test                                                  11.5s
+ => [3/4] RUN mariadb --version > test                                     7.6s
+ => [4/4] RUN echo ":) Helloo" >> test                                     7.5s
+ => exporting to image                                                     5.7s
+ => => exporting layers                                                    4.3s
+ => => writing image sha256:eda89ef94aab0311c63b2b2a7f207005b8b4a8335cec3  0.2s
+ => => naming to docker.io/library/kot2                                    0.3s
+u16@u16-VirtualBox:~/prj4$ vim Dockerfile
+u16@u16-VirtualBox:~/prj4$ docker run -it --rm kot2
+mariadb from 11.7.2-MariaDB, client 15.2 for debian-linux-gnu (x86_64) using  EditLine wrapper
+:) Helloo
+u16@u16-VirtualBox:~/prj4$ cat Dockerfile
+FROM mariadb 
+RUN touch test 
+RUN mariadb --version > test
+RUN echo ":) Helloo" >> test
+CMD ["cat","test"]
+
+
+
+
