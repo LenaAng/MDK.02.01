@@ -1,0 +1,131 @@
+Начинаем работу с томами 
+
+создание томов
+u16@u16-VirtualBox:~$ docker volume create tom1
+tom1
+u16@u16-VirtualBox:~$ docker volume create tom2
+tom2
+
+проверка томов 
+u16@u16-VirtualBox:~$ docker volume inspect tom1
+[
+    {
+        "CreatedAt": "2025-03-28T12:31:19+07:00",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/tom1/_data",
+        "Name": "tom1",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+
+проверка наличия конейнеров 
+u16@u16-VirtualBox:~$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+создание и запуск контейнера в томе 
+u16@u16-VirtualBox:~$ docker run --mount tupe=volume,source=tom1,target=/home/tom1 --name nametom1 -it ubuntu:22.04
+invalid argument "tupe=volume,source=tom1,target=/home/tom1" for "--mount" flag: unexpected key 'tupe' in 'tupe=volume'
+
+Usage:  docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+Run 'docker run --help' for more information
+
+u16@u16-VirtualBox:~$ docker run --mount type=volume,source=tom1,target=/home/tom1 --name nametom1 -it ubuntu:22.04
+Unable to find image 'ubuntu:22.04' locally
+22.04: Pulling from library/ubuntu
+9cb31e2e37ea: Pull complete 
+Digest: sha256:ed1544e454989078f5dec1bfdabd8c5cc9c48e0705d07b678ab6ae3fb61952d2
+Status: Downloaded newer image for ubuntu:22.04
+
+вход в каталог 
+root@265c218fdcc5:/# cd /home/tom1/
+
+проверка что находится в томе
+root@265c218fdcc5:/home/tom1# ls -l
+total 0
+
+создание и запись данных на файл
+root@265c218fdcc5:/home/tom1# cat > para.txt
+Пароверка связи....
+root@265c218fdcc5:/home/tom1# exit
+exit
+
+создаем  каталог и файла в нем
+u16@u16-VirtualBox:~$ mkdir tom3
+u16@u16-VirtualBox:~$ cd nom3
+\bash: cd: nom3: Нет такого файла или каталога
+u16@u16-VirtualBox:~$ cd tom3
+u16@u16-VirtualBox:~/tom3$ touch fa1
+
+узнаем путь
+u16@u16-VirtualBox:~/tom3$ pwd
+/home/u16/tom3
+
+
+u16@u16-VirtualBox:~/tom3$ docker run --mount type=volume,source=tom1,target=/home/tom1 --mount type=bind,source=/home/u16/tom3,target=/home/tom2 --name nametom2 -it ubuntu:22.04  
+ дальше все аналагично
+root@8c2f33572cea:/# cat > para2.txt
+Связь номер 2....
+root@8c2f33572cea:/# cd ../tom2
+bash: cd: ../tom2: No such file or directory
+root@8c2f33572cea:/# exit      
+exit
+
+копирование файлов
+u16@u16-VirtualBox:~/tom3$ ls -l
+итого 0
+-rw-rw-r-- 1 u16 u16 0 мар 28 12:55 fa1
+u16@u16-VirtualBox:~/tom3$ touch 1
+u16@u16-VirtualBox:~/tom3$ echo "Good moning" > fa1
+u16@u16-VirtualBox:~/tom3$ cat fa1
+Good moning
+u16@u16-VirtualBox:~/tom3$ 
+
+u16@u16-VirtualBox:~/tom3$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+u16@u16-VirtualBox:~/tom3$ docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                      PORTS                 NAMES
+8c2f33572cea   ubuntu:22.04   "/bin/bash"              15 minutes ago   Exited (1) 7 minutes ago                          nametom2
+265c218fdcc5   ubuntu:22.04   "/bin/bash"              45 minutes ago   Exited (0) 42 minutes ago                         nametom1
+c4314211ac8d   6eb6c37fe5aa   "java pr001"             23 hours ago     Exited (0) 23 hours ago                           nostalgic_curran
+77f40eb06f10   mysql          "docker-entrypoint.s…"   7 days ago       Exited (255) 25 hours ago   3306/tcp, 33060/tcp   sleepy_elgamal
+676c68cc6642   mysql          "docker-entrypoint.s…"   7 days ago       Exited (1) 7 days ago                             vibrant_babbage
+6bb5eb1ef8e7   mysql          "docker-entrypoint.s…"   8 days ago       Exited (1) 8 days ago                             vigilant_wiles
+u16@u16-VirtualBox:~/tom3$ docker exec -it 265c218fdcc5
+docker: 'docker exec' requires at least 2 arguments
+
+Usage:  docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+
+See 'docker exec --help' for more information
+u16@u16-VirtualBox:~/tom3$ docker exec -it 265c218fdcc5 bash
+Error response from daemon: container 265c218fdcc548b5f2b9fd3871a537b9cbb77012ce7bd4185aae7d570d35f8bd is not running
+u16@u16-VirtualBox:~/tom3$ docker start 265c218fdcc5
+265c218fdcc5
+u16@u16-VirtualBox:~/tom3$ docker exec -it 265c218fdcc5 bash
+root@265c218fdcc5:/# ls
+bin   dev  home  lib32  libx32  mnt  proc  run   srv  tmp  var
+boot  etc  lib   lib64  media   opt  root  sbin  sys  usr
+root@265c218fdcc5:/# cd home
+root@265c218fdcc5:/home# ls
+tom1
+root@265c218fdcc5:/home# exit
+exit
+u16@u16-VirtualBox:~/tom3$ docker start 8c2f33572cea
+8c2f33572cea
+u16@u16-VirtualBox:~/tom3$ docker exec -it 8c2f33572cea bash
+root@8c2f33572cea:/# cd home
+root@8c2f33572cea:/home# ls
+tom1  tom2
+root@8c2f33572cea:/home# ls tom2
+1  fa1
+root@8c2f33572cea:/home# ls tom1
+para.txt
+root@8c2f33572cea:/home# cp tom1/* tom2/
+root@8c2f33572cea:/home# ls tom2
+1  fa1  para.txt
+root@8c2f33572cea:/home# 
+
+
+
