@@ -1,0 +1,135 @@
+12 Пунктов 
+
+Создали контейнер из образа ubuntu и установили все обновления
+
+u16@u16-VirtualBox:~$ docker exec -it 8c2f33572cea bash
+root@8c2f33572cea:/# apt update && apt upgrade -y && apt install iproute2 -y && apt install iputils-ping -y && apt install dnsutils
+
+сделали образ из контейнера 
+
+u16@u16-VirtualBox:~$ docker commit 8c2f33572cea ubu:1
+sha256:64a6a9179234218b6b2b718716b27de6a517f8123501e6d2a6ba4b1a7214f14a
+
+фиксируем изменения и смтрим историю полученого образа  
+
+u16@u16-VirtualBox:~$ docker history ubu:1
+IMAGE          CREATED         CREATED BY                                      SIZE      COMMENT
+64a6a9179234   2 minutes ago   /bin/bash                                       133MB     
+a24be041d957   2 months ago    /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B        
+<missing>      2 months ago    /bin/sh -c #(nop) ADD file:1b6c8c9518be42fa2…   77.9MB    
+<missing>      2 months ago    /bin/sh -c #(nop)  LABEL org.opencontainers.…   0B        
+<missing>      2 months ago    /bin/sh -c #(nop)  LABEL org.opencontainers.…   0B        
+<missing>      2 months ago    /bin/sh -c #(nop)  ARG LAUNCHPAD_BUILD_ARCH     0B        
+<missing>      2 months ago    /bin/sh -c #(nop)  ARG RELEASE                  0B        
+u16@u16-VirtualBox:~$ docker inspect ubu:1
+[
+    {
+        "Id": "sha256:64a6a9179234218b6b2b718716b27de6a517f8123501e6d2a6ba4b1a7214f14a",
+        "RepoTags": [
+            "ubu:1"
+        ],
+        "RepoDigests": [],
+        "Parent": "sha256:a24be041d9576937f62435f8564c2ca6e429d2760537b04c50ca50adb0c6d212",
+        "Comment": "",
+        "Created": "2025-03-28T08:37:56.433944832Z",
+        "DockerVersion": "28.0.1",
+        "Author": "",
+        "Config": {
+            "Hostname": "8c2f33572cea",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": true,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": true,
+            "OpenStdin": true,
+            "StdinOnce": true,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/bash"
+            ],
+            "Image": "ubuntu:22.04",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {
+                "org.opencontainers.image.ref.name": "ubuntu",
+                "org.opencontainers.image.version": "22.04"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 211218948,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/8f8b783a9169bafca0549176920d17098aa75d5bca11732b3659689b0d294c32/diff",
+                "MergedDir": "/var/lib/docker/overlay2/92db73fff7749c358b3755ab823d2cfe5d40c3c0434095a6534a80d158b9828c/merged",
+                "UpperDir": "/var/lib/docker/overlay2/92db73fff7749c358b3755ab823d2cfe5d40c3c0434095a6534a80d158b9828c/diff",
+                "WorkDir": "/var/lib/docker/overlay2/92db73fff7749c358b3755ab823d2cfe5d40c3c0434095a6534a80d158b9828c/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:270a1170e7e398434ff1b31e17e233f7d7b71aa99a40473615860068e86720af",
+                "sha256:e003ee84f09d0eaedf1e59db6e19b4f41d44c2273253b1ede6b0046c2653e4e1"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2025-03-28T15:37:57.434734834+07:00"
+        }
+    }
+]
+
+создаем контейнеры и установка клиентов 
+
+u16@u16-VirtualBox:~$ docker run -it --name tppp ubu:1 bash
+root@c94550553be0:/# apt install mysql-client -y && apt install postgresql-client -y
+
+из контейнера сделаи образ 
+
+u16@u16-VirtualBox:~$ docker commit tppp ubu:2
+sha256:aa37bd54551d38f80c2148b553b7b65d4abcbdb586f38f8ffd8f5ffc95b2feca
+u16@u16-VirtualBox:~$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED             SIZE
+ubu          2         aa37bd54551d   22 seconds ago      327MB
+ubu          1         64a6a9179234   13 minutes ago      211MB
+
+
+запустили контейнер 
+
+u16@u16-VirtualBox:~$ docker start 77f40eb06f10
+77f40eb06f10
+u16@u16-VirtualBox:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED       STATUS          PORTS                                     NAMES
+846d92e4f664   90             "docker-php-entrypoi…"   2 hours ago   Up 2 hours      0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   php1
+8c2f33572cea   ubuntu:22.04   "/bin/bash"              3 hours ago   Up 3 hours                                                nametom2
+77f40eb06f10   mysql          "docker-entrypoint.s…"   8 days ago    Up 19 seconds   3306/tcp, 33060/tcp                       sleepy_elgamal
+u16@u16-VirtualBox:~$ docker run -it --name upo ubu:2
+root@6893530bb481:/# 
+
+проброс портов 
+
+u16@u16-VirtualBox:~$ docker run -it --name upo ubu:2
+root@6893530bb481:/# mysql -h 172.17.0.2 -P 3306 -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 9.2.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> 
+
+
+
