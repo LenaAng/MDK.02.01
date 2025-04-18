@@ -1,0 +1,84 @@
+lena@lena:~$ sudo systemctl  status docker
+[sudo] password for lena: 
+Sorry, try again.
+[sudo] password for lena: 
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset>
+     Active: active (running) since Fri 2025-04-18 08:02:17 UTC; 18min ago
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 978 (dockerd)
+      Tasks: 8
+     Memory: 1.2G
+        CPU: 32.258s
+     CGroup: /system.slice/docker.service
+             └─978 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/conta>
+
+апр 18 08:02:15 lena dockerd[978]: time="2025-04-18T08:02:15.208080329Z" level=>
+апр 18 08:02:16 lena dockerd[978]: time="2025-04-18T08:02:16.572941680Z" level=>
+апр 18 08:02:17 lena dockerd[978]: time="2025-04-18T08:02:17.299787814Z" level=>
+апр 18 08:02:17 lena dockerd[978]: time="2025-04-18T08:02:17.652968270Z" level=>
+апр 18 08:02:17 lena dockerd[978]: time="2025-04-18T08:02:17.671338235Z" level=>
+апр 18 08:02:17 lena dockerd[978]: time="2025-04-18T08:02:17.829015083Z" level=>
+апр 18 08:02:17 lena dockerd[978]: time="2025-04-18T08:02:17.864759057Z" level=>
+апр 18 08:02:17 lena dockerd[978]: time="2025-04-18T08:02:17.865201393Z" level=>
+апр 18 08:02:17 lena systemd[1]: Started Docker Application Container Engine.
+апр 18 08:16:30 lena dockerd[978]: time="2025-04-18T08:16:30.946837954Z" level=>
+...skipping...
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset>
+     Active: active (running) since Fri 2025-04-18 08:02:17 UTC; 18min ago
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 978 (dockerd)
+      Tasks: 8
+     Memory: 1.2G
+        CPU: 32.258s
+     CGroup: /system.slice/docker.service
+             └─978 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/conta>
+
+апр 18 08:02:15 lena dockerd[978]: time="2025-04-18T08:02:15.208080329Z" level=>
+апр 18 08:02:16 lena dockerd[978]: time="2025-04-18T08:02:16.572941680Z" level=>
+апр 18 08:02:17 lena dockerd[978]: time="2025-04-18T08:02:17.299787814Z" level=>
+апр 18 08:02:17 lena dockerd[978]: time="2025-04-18T08:02:17.652968270Z" level=>
+апр 18 08:02:17 lena dockerd[978]: time="2025-04-18T08:02:17.671338235Z" level=>
+апр 18 08:02:17 lena dockerd[978]: time="2025-04-18T08:02:17.829015083Z" level=>
+апр 18 08:02:17 lena dockerd[978]: time="2025-04-18T08:02:17.864759057Z" level=>
+апр 18 08:02:17 lena dockerd[978]: time="2025-04-18T08:02:17.865201393Z" level=>
+апр 18 08:02:17 lena systemd[1]: Started Docker Application Container Engine.
+апр 18 08:16:30 lena dockerd[978]: time="2025-04-18T08:16:30.946837954Z" level=>
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+lena@lena:~$ docker image
+Usage:  docker image COMMAND
+
+Manage images
+
+Commands:
+  build       Build an image from a Dockerfile
+  history     Show the history of an image
+  import      Import the contents from a tarball to create a filesystem image
+  inspect     Display detailed information on one or more images
+  load        Load an image from a tar archive or STDIN
+  ls          List images
+  prune       Remove unused images
+  pull        Download an image from a registry
+  push        Upload an image to a registry
+  rm          Remove one or more images
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+
+Run 'docker image COMMAND --help' for more information on a command.
+lena@lena:~$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS                     PORTS     NAMES
+0c389b738319   nginx     "/docker-entrypoint.…"   3 minutes ago   Up 3 minutes                         stoic_ritchie
+60fed9441044   mysql     "docker-entrypoint.s…"   5 minutes ago   Exited (1) 5 minutes ago             exciting_rubin
+lena@lena:~$ 
