@@ -1,0 +1,175 @@
+u16@u16-VirtualBox:/$ sudo fdisk -l | grep sd
+Диск /dev/sda: 25 GiB, 26843545600 байт, 52428800 секторов
+/dev/sda1     2048     4095     2048     1M BIOS boot
+/dev/sda2     4096  1054719  1050624   513M EFI
+/dev/sda3  1054720 52426751 51372032  24,5G Файловая система Linux
+Диск /dev/sdb: 5 GiB, 5368709120 байт, 10485760 секторов
+/dev/sdb1  4196352 10485726 6289375     3G Файловая система Linux
+/dev/sdb2     2048  4196351 4194304     2G Файловая система Linux
+Диск /dev/sdc: 5 GiB, 5368709120 байт, 10485760 секторов
+/dev/sdc1  4196352 10485726 6289375     3G Файловая система Linux
+/dev/sdc2     2048  4196351 4194304     2G Файловая система Linux
+
+u16@u16-VirtualBox:/$ lsblk -f
+NAME FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+loop0
+     squash 4.0                                                    0   100% /snap/bare/5
+loop1
+     squash 4.0                                                    0   100% /snap/gnome-42-2204/202
+loop2
+     squash 4.0                                                    0   100% /snap/core20/2501
+loop3
+                                                                   0   100% /snap/firefox/6198
+loop4
+     squash 4.0                                                    0   100% /snap/core22/1908
+loop6
+     squash 4.0                                                    0   100% /snap/firefox/5889
+loop7
+     squash 4.0                                                    0   100% /snap/gnome-3-38-2004/143
+loop8
+     squash 4.0                                                    0   100% /snap/gnome-42-2204/120
+loop9
+     squash 4.0                                                    0   100% /snap/gtk-common-themes/1535
+loop10
+     squash 4.0                                                    0   100% /snap/snap-store/1216
+loop11
+     squash 4.0                                                    0   100% /snap/snap-store/959
+loop12
+     squash 4.0                                                    0   100% /snap/c  squash 4.0                                                    0   100% /snap/snapd/23771
+loop14
+     squash 4.0                                                    0   100% /snap/snapd-desktop-integration/253
+loo
+     squash 4.0                                                    0   100% /snap/snapd-desktop-integration/83
+loop16
+     squash 4.0                                                                   0   100% /snap/core20/2571
+sda                               
+├─sda1
+│                                                                           
+├─sda2
+│    vfat   FAT32       523E-1F56                             505,9M     1% /boot/efi
+└─sda3
+     ext4   1.0         c1f7d696-88cd-4139-8a93-f7e06ca40eb1    3,6G    80% /var/snap/firefox/common/host-hunspell
+                                                                            /
+sdb                                                                         
+├─sdb1
+│    ext4   1.0         658d93d6-4d01-4526-8fb0-48ed4db11731    2,7G     0% /mnt/ext4
+└─sdb2
+     xfs                12bb4816-5588-4932-9518-a947ccec38d6    1,9G     2% /mnt/xfs
+sdc                                                                         
+├─sdc1
+│    btrfs              80d05996-1f07-422e-bfa0-c9611071bc92    2,5G     0% /mnt/btrfs
+└─sdc2
+     ext3   1.0         47400e6d-4a7d-4605-84b3-3204c635e06d                
+sr0                                                          
+u16@u16-VirtualBox:/mnt/ext4$ ls -l
+итого 20
+drwx------ 2 root root 16384 мая 16 11:03 lost+found
+-rw-rw-r-- 1 u16  u16     45 мая 16 11:30 t123
+-rw-rw-r-- 1 u16  u16      0 мая 16 11:29 t1.txt
+
+u16@u16-VirtualBox:/mnt/ext4$ sudo lsblk -f /dev/sdb1 >> t.txt
+[sudo] пароль для u16: 
+u16@u16-VirtualBox:/mnt/ext4$ cat t.txt
+463854524168231
+4543543
+46135436
+NAME FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+sdb1 ext4   1.0         658d93d6-4d01-4526-8fb0-48ed4db11731    2,7G     0% /mnt/ext4
+
+Файл.система   Размер Использовано  Дост Использовано% Cмонтировано в
+tmpfs            136M         1,7M  134M            2% /run
+/dev/sda3         24G          20G  3,3G           86% /
+tmpfs            677M            0  677M            0% /dev/shm
+tmpfs            5,0M         4,0K  5,0M            1% /run/lock
+/dev/sda2        512M         6,1M  506M            2% /boot/efi
+tmpfs            136M         132K  136M            1% /run/user/1000
+/dev/sdb2        2,0G          47M  2,0G            3% /mnt/xfs
+/dev/sdc1        3,0G         5,8M  2,5G            1% /mnt/btrfs
+/dev/sdb1        2,9G          32K  2,8G            1% /mnt/ext4
+
+u16@u16-VirtualBox:/mnt/ext4$ df -i
+Файл.система    Iнодов IИспользовано IСвободно IИспользовано% Cмонтировано в
+tmpfs           173256          1143    172113             1% /run
+/dev/sda3      1605632        326834   1278798            21% /
+tmpfs           173256             1    173255             1% /dev/shm
+tmpfs           173256             4    173252             1% /run/lock
+/dev/sda2            0             0         0              - /boot/efi
+tmpfs            34651           155     34496             1% /run/user/1000
+/dev/sdb2      1048576             3   1048573             1% /mnt/xfs
+/dev/sdc1            0             0         0              - /mnt/btrfs
+/dev/sdb1       196608            14    196594             1% /mnt/ext4
+u16@u16-VirtualBox:/etc$ sudo du -hs
+12M	.
+
+u16@u16-VirtualBox:/etc$ sudo debugfs /dev/sdb1
+debugfs 1.46.5 (30-Dec-2021)
+debugfs:  ls
+ 2  (12) .    2  (12) ..    11  (20) lost+found    12  (16) t1.txt   
+ 13  (12) t123    14  (4012) t.txt   
+
+u16@u16-VirtualBox:/etc$ sudo debugfs -w /dev/sdb1
+debugfs 1.46.5 (30-Dec-2021)
+debugfs:  rm t.txt
+debugfs:  ls
+ 2  (12) .    2  (12) ..    11  (20) lost+found    12  (16) t1.txt   
+ 13  (4024) t123   
+
+debugfs:  lsdel
+ Inode  Owner  Mode    Size      Blocks   Time deleted
+    14   1000 100664    207      1/     1 Thu May 22 09:48:34 2025
+1 deleted inodes found.
+
+ u16@u16-VirtualBox:/$ sudo vim /etc/fstab
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/sda3 during installation
+UUID=c1f7d696-88cd-4139-8a93-f7e06ca40eb1 /               ext4    errors=remount-ro 0       1
+# /boot/efi was on /dev/sda2 during installation
+UUID=523E-1F56  /boot/efi       vfat    umask=0077      0       1
+/swapfile                                 none            swap    sw  0       0
+
+
+#/dev/sdb1 ext4
+UUID=658d93d6-4d01-4526-8fb0-48ed4db11731 /mnt/ext4 ext4 defaults 0 2
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~          
+СЕРВЕР
+lena@lena:~$ sudo vim /etc/fstab
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/ubuntu-vg/ubuntu-lv during curtin installation
+/dev/disk/by-id/dm-uuid-LVM-llf6C39pAIYTmKl9TXAwfDdrZ674zeVZfeKSLsXShBXQ2yMovnlgi1D30dPX99SX / ext4 defaults 0 1
+# /boot was on /dev/sda2 during curtin installation
+/dev/disk/by-uuid/007700e8-d50f-4f85-bcf1-99217fe352c4 /boot ext4 defaults 0 1
+/swap.img       none    swap    sw      0       0
+#sdb1
+/dev/disk/by-uuid/909f5b35-6e97-4830-a704-ddbed34c2858 /mnt/ext4 ext4 defaults 0 2 
+#Disk/sdb2
+/dev/disk/by-uuid/81f49add-2163-4211-af9b-5631090efd7c /mnt/xfs xfs defaults 0 2        
+#Disk/sdc1
+/dev/disk/by-uuid/35fbfb8d-1725-4a7c-8051-04260011f11d /mnt/btrfs btrfs defaults 0 2
+#disk/sdc2
+                             
+lena@lena:~$ sudo ls /mnt
+btrfs  ext2  ext4  xfs
+
+root@lena:/home/lena# ls -l
+total 4
+-rw-r--r-- 1 root root 658 апр 18 09:32 fstab_r
+
+root@lena:/mnt# ls
+btrfs  ext2  ext4  xfs
+
