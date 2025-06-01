@@ -1,0 +1,363 @@
+u16@u16-VirtualBox:~$ docker network create -d macvlan --subnet=192.168.1.0/24 --gateway=192.168.1.1 -o parent=enp0s8.2 mytest
+20eecce885923efede52de93565ff3f49c5b268fc043d785487646d0b3376f38
+u18@u18-VirtualBox:~$ docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+796a6a09d295   bridge    bridge    local
+c23bac4bed2e   host      host      local
+20eecce88592   mytest    macvlan   local
+54a0ac36ea62   none      null      local
+u18@u18-VirtualBox:~$ ipa 
+
+создвем сеть типа macvlan
+
+11: enp0s8.2@enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 08:00:27:d8:5e:2f brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::a00:27ff:fed8:5e2f/64 scope link 
+       valid_lft forever preferred_lft forever
+       
+u16@u16-VirtualBox:~$ docker network create -d macvlan --subnet=192.168.2.0/24 --gateway=192.168.2.1 -o parent=enp0s8.3 mytestt
+4809dd1bbd60ade8b923552055398af308751d7148751a2f406fa78963415260
+u16@u16-VirtualBox:~$ docker network create -d ipvlan --subnet=192.168.3.0/24 --gateway=192.168.3.1 -o parent=enp0s8.4 ip1
+8e0b3aa66b702fe03ebd93acac9dd957c685780e2ec02552d44d30d5d862820a
+u16@u16-VirtualBox:~$ docker network create -d ipvlan --subnet=192.168.4.0/24 --gateway=192.168.4.1 -o parent=enp0s8.5 ip2
+d6dc80c1330fa19837d0f04c907b52a59badff9090038c29f7fe11f5ef23863e
+u16@u16-VirtualBox:~$ docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+796a6a09d295   bridge    bridge    local
+c23bac4bed2e   host      host      local
+8e0b3aa66b70   ip1       ipvlan    local
+d6dc80c1330f   ip2       ipvlan    local
+20eecce88592   mytest    macvlan   local
+4809dd1bbd60   mytestt   macvlan   local
+54a0ac36ea62   none      null      local
+u16@u16-VirtualBox:~$ 
+добоовляем еще несколько сетей для того что бы провреить связь между ними 
+u16@u16-VirtualBox:~$ docker run -itd --net mytest --name mac1.2 --rm alpine 
+66acb5400129c608f19a5226b5ef8a4ec074e9f7c0f4dc7d7b3a5df0df975c8e
+u16@u16-VirtualBox:~$ docker run -itd --net mytest --name mac1.1 --rm alpine 
+9cbeff4899bfb54d4e05fc28ce09dac7a4126ea4a57eeaa436f3e09a75f595e9
+u16@u16-VirtualBox:~$ docker run -itd --net mytestt --name mac2.1 --rm alpine 
+72f86c0355d8c807ac02dc1e12163b59ede6e14e0088416756d9e1afb974e55f
+u16@u16-VirtualBox:~$ docker run -itd --net mytestt --name mac2.2 --rm alpine 
+e8e4212804c046858ca91b6bc7edeb9a85fd18a1c26ccf475e7e090b1c75fdba
+u16@u16-VirtualBox:~$ docker run -itd --net ip1 --name mac3.2 --rm alpine 
+a442ad2e562327dbf07497752ae414c00b8d5e3848a0d328621a56d84fd525dd
+u16@u16-VirtualBox:~$ docker run -itd --net ip1 --name mac3.1 --rm alpine 
+6b366974cfcc59532de946c06574c52de0babb73022601d7e973a62fff93d124
+u16@u16-VirtualBox:~$ docker run -itd --net ip2 --name mac4.1 --rm alpine 
+084cf7aeac101997a33de78bdf4eaa7418e785c0b0807f776ef7a06164837045
+u16@u16-VirtualBox:~$ docker run -itd --net ip2 --name mac4.2 --rm alpine 
+e5f1d879dd2a9dccf7c570a248dfce1c33a780b63b16ea84677acf65b0305398 
+добовляем в каждую сеть по два контейнера 
+u16@u16-VirtualBox:~$ docker network inspect mytest
+[
+    {
+        "Name": "mytest",
+        "Id": "20eecce885923efede52de93565ff3f49c5b268fc043d785487646d0b3376f38",
+        "Created": "2025-04-18T14:46:46.897225447+07:00",
+        "Scope": "local",
+        "Driver": "macvlan",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "192.168.1.0/24",
+                    "Gateway": "192.168.1.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "66acb5400129c608f19a5226b5ef8a4ec074e9f7c0f4dc7d7b3a5df0df975c8e": {
+                "Name": "mac1.2",
+                "EndpointID": "3b0bd13ddd9bd8b475a41852958b0b9c6c5b367f2d11693675be8db03dd5b77a",
+                "MacAddress": "0e:2f:b1:b4:09:d7",
+                "IPv4Address": "192.168.1.2/24",
+                "IPv6Address": ""
+            },
+            "9cbeff4899bfb54d4e05fc28ce09dac7a4126ea4a57eeaa436f3e09a75f595e9": {
+                "Name": "mac1.1",
+                "EndpointID": "a1ef578caab53eb59b0cce98bcc4cc4c7b980bd5c467c4ed2d639d647ff92d69",
+                "MacAddress": "62:0a:3f:77:89:9d",
+                "IPv4Address": "192.168.1.3/24",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {
+            "parent": "enp0s8.2"
+        },
+        "Labels": {}
+    }
+]
+u16@u16-VirtualBox:~$ docker network inspect mytestt
+[
+    {
+        "Name": "mytestt",
+        "Id": "4809dd1bbd60ade8b923552055398af308751d7148751a2f406fa78963415260",
+        "Created": "2025-04-18T15:07:08.484164593+07:00",
+        "Scope": "local",
+        "Driver": "macvlan",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "192.168.2.0/24",
+                    "Gateway": "192.168.2.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "72f86c0355d8c807ac02dc1e12163b59ede6e14e0088416756d9e1afb974e55f": {
+                "Name": "mac2.1",
+                "EndpointID": "92fa179aef5e9685e621b62cabf8e2d2eb833c88a4ecb44d837ded4ae217b2cf",
+                "MacAddress": "c6:28:97:ac:3f:3a",
+                "IPv4Address": "192.168.2.2/24",
+                "IPv6Address": ""
+            },
+            "e8e4212804c046858ca91b6bc7edeb9a85fd18a1c26ccf475e7e090b1c75fdba": {
+                "Name": "mac2.2",
+                "EndpointID": "16269a6cce52c43a35c0634794d8426c38cf0aedda2747b445c44978630ae676",
+                "MacAddress": "06:11:e4:9d:22:73",
+                "IPv4Address": "192.168.2.3/24",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {
+            "parent": "enp0s8.3"
+        },
+        "Labels": {}
+    }
+]
+u16@u16-VirtualBox:~$ docker network inspect ip1
+[
+    {
+        "Name": "ip1",
+        "Id": "8e0b3aa66b702fe03ebd93acac9dd957c685780e2ec02552d44d30d5d862820a",
+        "Created": "2025-04-18T15:07:35.741010615+07:00",
+        "Scope": "local",
+        "Driver": "ipvlan",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "192.168.3.0/24",
+                    "Gateway": "192.168.3.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "6b366974cfcc59532de946c06574c52de0babb73022601d7e973a62fff93d124": {
+                "Name": "mac3.1",
+                "EndpointID": "7b36b930452e864b15f26a3c2a7a4e0ef7b499cf64d8b1a559c5bc7600fb1030",
+                "MacAddress": "",
+                "IPv4Address": "192.168.3.3/24",
+                "IPv6Address": ""
+            },
+            "a442ad2e562327dbf07497752ae414c00b8d5e3848a0d328621a56d84fd525dd": {
+                "Name": "mac3.2",
+                "EndpointID": "2357817c2e5b25bbdf1278ffcd94bf2d9fad8875f3151365d5f001eb22683bc7",
+                "MacAddress": "",
+                "IPv4Address": "192.168.3.2/24",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {
+            "parent": "enp0s8.4"
+        },
+        "Labels": {}
+    }
+]
+u16@u16-VirtualBox:~$ docker network inspect ip2
+[
+    {
+        "Name": "ip2",
+        "Id": "d6dc80c1330fa19837d0f04c907b52a59badff9090038c29f7fe11f5ef23863e",
+        "Created": "2025-04-18T15:07:54.248423694+07:00",
+        "Scope": "local",
+        "Driver": "ipvlan",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "192.168.4.0/24",
+                    "Gateway": "192.168.4.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "084cf7aeac101997a33de78bdf4eaa7418e785c0b0807f776ef7a06164837045": {
+                "Name": "mac4.1",
+                "EndpointID": "8df0f35a67693d13cd10c3ec5febd76110f1c4d81f4322cfa8b84598fb010ecc",
+                "MacAddress": "",
+                "IPv4Address": "192.168.4.2/24",
+                "IPv6Address": ""
+            },
+            "e5f1d879dd2a9dccf7c570a248dfce1c33a780b63b16ea84677acf65b0305398": {
+                "Name": "mac4.2",
+                "EndpointID": "f4b6aad28321226c6df08e72bbaded9c20a60237222e0d292a7b39b31ce32c53",
+                "MacAddress": "",
+                "IPv4Address": "192.168.4.3/24",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {
+            "parent": "enp0s8.5"
+        },
+        "Labels": {}
+    }
+]
+проверка связя между контейнерами 
+u16@u16-VirtualBox:~$ docker exec mac1.1 ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+16: eth0@if11: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP 
+    link/ether 62:0a:3f:77:89:9d brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.3/24 brd 192.168.1.255 scope global eth0
+       valid_lft forever preferred_lft forever
+u16@u16-VirtualBox:~$ docker exec mac1.2 ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+15: eth0@if11: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP 
+    link/ether 0e:2f:b1:b4:09:d7 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.2/24 brd 192.168.1.255 scope global eth0
+       valid_lft forever preferred_lft forever
+u16@u16-VirtualBox:~$ docker exec mac1.2 ping -c 4 192.168.1.3
+PING 192.168.1.3 (192.168.1.3): 56 data bytes
+64 bytes from 192.168.1.3: seq=0 ttl=64 time=0.221 ms
+64 bytes from 192.168.1.3: seq=1 ttl=64 time=0.123 ms
+64 bytes from 192.168.1.3: seq=2 ttl=64 time=0.132 ms
+64 bytes from 192.168.1.3: seq=3 ttl=64 time=0.100 ms
+
+--- 192.168.1.3 ping statistics ---
+4 packets transmitted, 4 packets received, 0% packet loss
+round-trip min/avg/max = 0.100/0.144/0.221 ms
+u16@u16-VirtualBox:~$ docker exec mac2.2 ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+18: eth0@if12: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP 
+    link/ether 06:11:e4:9d:22:73 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.2.3/24 brd 192.168.2.255 scope global eth0
+       valid_lft forever preferred_lft forever
+u16@u16-VirtualBox:~$ docker exec mac2.2 ping -c 4 192.168.1.3
+PING 192.168.1.3 (192.168.1.3): 56 data bytes
+
+--- 192.168.1.3 ping statistics ---
+4 packets transmitted, 0 packets received, 100% packet loss
+u16@u16-VirtualBox:~$ docker exec mac2.2 ping -c 4 mac2.1
+PING mac2.1 (192.168.2.2): 56 data bytes
+64 bytes from 192.168.2.2: seq=0 ttl=64 time=0.287 ms
+64 bytes from 192.168.2.2: seq=1 ttl=64 time=0.125 ms
+64 bytes from 192.168.2.2: seq=2 ttl=64 time=0.133 ms
+64 bytes from 192.168.2.2: seq=3 ttl=64 time=0.136 ms
+
+--- mac2.1 ping statistics ---
+4 packets transmitted, 4 packets received, 0% packet loss
+round-trip min/avg/max = 0.125/0.170/0.287 ms
+для сети macvlan внутрений DNS работает, ping между семи не проходит
+u16@u16-VirtualBox:~$ docker exec mac3.2 ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+19: eth0@if13: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether 08:00:27:d8:5e:2f brd ff:ff:ff:ff:ff:ff
+    inet 192.168.3.2/24 brd 192.168.3.255 scope global eth0
+       valid_lft forever preferred_lft forever
+u16@u16-VirtualBox:~$ docker exec mac3.1 ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+20: eth0@if13: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether 08:00:27:d8:5e:2f brd ff:ff:ff:ff:ff:ff
+    inet 192.168.3.3/24 brd 192.168.3.255 scope global eth0
+       valid_lft forever preferred_lft forever
+u16@u16-VirtualBox:~$ docker exec mac3.1 ping 192.168.3.2
+PING 192.168.3.2 (192.168.3.2): 56 data bytes
+64 bytes from 192.168.3.2: seq=0 ttl=64 time=0.157 ms
+64 bytes from 192.168.3.2: seq=1 ttl=64 time=0.428 ms
+64 bytes from 192.168.3.2: seq=2 ttl=64 time=0.090 ms
+64 bytes from 192.168.3.2: seq=3 ttl=64 time=0.129 ms
+^Ccontext canceled
+u16@u16-VirtualBox:~$ docker exec mac4.1 ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+21: eth0@if14: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether 08:00:27:d8:5e:2f brd ff:ff:ff:ff:ff:ff
+    inet 192.168.4.2/24 brd 192.168.4.255 scope global eth0
+       valid_lft forever preferred_lft forever
+u16@u16-VirtualBox:~$ docker exec mac4.1 ping -c 4 192.168.3.3
+PING 192.168.3.3 (192.168.3.3): 56 data bytes
+
+--- 192.168.3.3 ping statistics ---
+4 packets transmitted, 0 packets received, 100% packet loss
+u18@u18-VirtualBox:~$ docker exec mac4.1 ping -c 4 mac4.2
+PING mac4.2 (192.168.4.3): 56 data bytes
+64 bytes from 192.168.4.3: seq=0 ttl=64 time=0.131 ms
+64 bytes from 192.168.4.3: seq=1 ttl=64 time=0.153 ms
+64 bytes from 192.168.4.3: seq=2 ttl=64 time=0.127 ms
+64 bytes from 192.168.4.3: seq=3 ttl=64 time=0.119 ms
+
+--- mac4.2 ping statistics ---
+4 packets transmitted, 4 packets received, 0% packet loss
+round-trip min/avg/max = 0.119/0.132/0.153 ms
+для сети ipvlan все аналогично, внутрений DNS работает и сети между собой не пингуются
