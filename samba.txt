@@ -1,0 +1,195 @@
+lena@lena:~$ cd /media/RAID/
+lena@lena:/media/RAID$ mkdir Shared
+lena@lena:/media/RAID$ sudo apt-get update
+[sudo] password for lena: 
+Сущ:1 http://ru.archive.ubuntu.com/ubuntu jammy InRelease                      
+Пол:2 http://ru.archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]     
+Пол:3 http://ru.archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+Пол:4 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]  
+Пол:5 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [2 624 kB]
+Пол:6 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main Translation-en [424 kB]
+Пол:7 http://ru.archive.ubuntu.com/ubuntu jammy-updates/restricted Translation-en [648 kB]
+Пол:8 http://ru.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1 209 kB]
+Пол:9 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [2 380 kB]
+Пол:10 http://security.ubuntu.com/ubuntu jammy-security/main Translation-en [359 kB]
+Пол:11 http://security.ubuntu.com/ubuntu jammy-security/restricted Translation-en [630 kB]
+Пол:12 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [974 kB]
+Получено 9 632 kB за 9с (1 080 kB/s)                                           
+Чтение списков пакетов… Готово
+lena@lena:/media/RAID$ sudo apt install samba
+Чтение списков пакетов… Готово
+ открываем в нано 
+ nano smb.conf 
+ [Shared1]
+comment = simpleShared
+path = /media/RAID/Shared
+inherit acls = yes
+writable = yes 
+
+valid users = lena 
+read list = lena 
+write list = lena 
+
+lena@lena:/etc/samba$ sudo testparm 
+Load smb config files from /etc/samba/smb.conf
+Loaded services file OK.
+Weak crypto is allowed
+
+Server role: ROLE_STANDALONE
+lena@lena:/etc/samba$ sudo smbpasswd -a lena 
+New SMB password:
+Retype new SMB password:
+Added user lena.
+lena@lena:/etc/samba$ 
+lena@lena:/etc/samba$ sudo service smbd restart
+lena@lena:/etc/samba$ ip -4 addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    inet 192.168.53.104/24 metric 100 brd 192.168.53.255 scope global dynamic enp0s3
+       valid_lft 2361sec preferred_lft 2361sec
+3: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default 
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+ 
+ Вошла в файловую систему на десктоп 
+ прописла в поле подключиться к серверу smb://192.168.53.104
+ приподключении захожу в папку Shared1 и ввожу зарегистрированного пользователя 
+ lena@lena:/etc/samba$ sudo apt install cifs-utils
+Чтение списков пакетов… Готово
+Построение дерева зависимостей… Готово
+Чтение информации о состоянии… Готово 
+
+ЧАСТЬ 2
+lena@lena:/$ sudo groupadd Bihs
+lena@lena:/$ nano /etc/group 
+sambashare:x:120:
+Bihs:x:1001:
+lena@lena:/$ sudo useradd -G Bihs Buhs-1
+lena@lena:/$ sudo passwd Buhs-1
+New password: 
+Retype new password: 
+passwd: password updated successfully
+lena@lena:/media/RAID$ mkdir Shared_srud Shared_Bush Shared_Bush_1 Shared_all
+lena@lena:/media/RAID$ ls -l
+total 36
+drwx------ 2 root root 16384 июн 11 07:38 lost+found
+drwxrwxr-x 3 lena lena  4096 июн 13 07:01 Shared
+drwxrwxr-x 2 lena lena  4096 июн 13 07:15 Shared_all
+drwxrwxr-x 2 lena lena  4096 июн 13 07:15 Shared_Bush
+drwxrwxr-x 2 lena lena  4096 июн 13 07:15 Shared_Bush_1
+drwxrwxr-x 2 lena lena  4096 июн 13 07:15 Shared_srud
+lena@lena:/media/RAID$ sudo chown Buhs-1 Shared_Bush_1
+lena@lena:/media/RAID$ sudo chown Buhs-1:Bihs Shared_Bush
+lena@lena:/media/RAID$ sudo chmod 777 Shared_all
+lena@lena:/media/RAID$ stat Shared_srud 
+  File: Shared_srud
+  Size: 4096      	Blocks: 8          IO Block: 4096   directory
+Device: 10300h/66304d	Inode: 131075      Links: 2
+Access: (0775/drwxrwxr-x)  Uid: ( 1000/    lena)   Gid: ( 1000/    lena)
+Access: 2025-06-13 07:15:21.368037183 +0000
+Modify: 2025-06-13 07:15:21.368037183 +0000
+Change: 2025-06-13 07:15:21.368037183 +0000
+ Birth: 2025-06-13 07:15:21.368037183 +0000
+lena@lena:/media/RAID$ stat Shared_Bush_1
+  File: Shared_Bush_1
+  Size: 4096      	Blocks: 8          IO Block: 4096   directory
+Device: 10300h/66304d	Inode: 131076      Links: 2
+Access: (0775/drwxrwxr-x)  Uid: ( 1001/  Buhs-1)   Gid: ( 1000/    lena)
+Access: 2025-06-13 07:15:21.380036661 +0000
+Modify: 2025-06-13 07:15:21.380036661 +0000
+Change: 2025-06-13 07:17:14.817235203 +0000
+ Birth: 2025-06-13 07:15:21.380036661 +0000
+lena@lena:/media/RAID$ stat Shared_all
+  File: Shared_all
+  Size: 4096      	Blocks: 8          IO Block: 4096   directory
+Device: 10300h/66304d	Inode: 13          Links: 2
+Access: (0777/drwxrwxrwx)  Uid: ( 1000/    lena)   Gid: ( 1000/    lena)
+Access: 2025-06-13 07:15:21.380036661 +0000
+Modify: 2025-06-13 07:15:21.380036661 +0000
+Change: 2025-06-13 07:19:25.777917642 +0000
+ Birth: 2025-06-13 07:15:21.380036661 +0000
+lena@lena:/media/RAID$ sudo nano /etc/samba/smb.conf 
+lena@lena:/media/RAID$ sudo testparm
+Load smb config files from /etc/samba/smb.conf
+Loaded services file OK.
+Weak crypto is allowed
+
+Server role: ROLE_STANDALONE
+
+Press enter to see a dump of your service definitions
+
+# Global parameters
+[global]
+	log file = /var/log/samba/log.%m
+	logging = file
+	map to guest = Bad User
+	max log size = 1000
+	obey pam restrictions = Yes
+	pam password change = Yes
+	panic action = /usr/share/samba/panic-action %d
+	passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+	passwd program = /usr/bin/passwd %u
+	server role = standalone server
+	server string = %h server (Samba, Ubuntu)
+	unix password sync = Yes
+	usershare allow guests = Yes
+	idmap config * : backend = tdb
+
+
+[printers]
+	browseable = No
+	comment = All Printers
+	create mask = 0700
+	path = /var/spool/samba
+	printable = Yes
+
+
+[print$]
+	comment = Printer Drivers
+	path = /var/lib/samba/printers
+
+
+[Shared1]
+	comment = simpleShared
+	inherit acls = Yes
+	path = /media/RAID/Shared
+	read list = lena
+	read only = No
+	valid users = lena
+	write list = lena
+
+
+[Shared_stud]
+	path = /media/RAID/Shared_stud
+	read only = No
+	write list = user buhs_1 @Buhs
+
+
+[Shared_buhs_1]
+	inherit owner = windows and unix
+	inherit permissions = Yes
+	path = /media/RAID/Shared_buhs_1
+	read only = No
+	write list = user buhs_1
+
+
+[Shared_Buhs]
+	create mask = 0666
+	directory mask = 0777
+	force group = Buhs
+	force user = buhs_1
+	path = /media/RAID/Shared_Bush
+	read only = No
+	write list = user
+
+
+[Shared_all]
+	guest ok = Yes
+	path = /media/RAID/Shared_all
+	read only = No
+
+
+
+
